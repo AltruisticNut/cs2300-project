@@ -46,19 +46,21 @@
 	  </style>
 
 	<body>
-		    
 		<div class="container">
-			        
 			<header class="header">
-				            
-				<nav
-					class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
-				>
-					<a
-						class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
-					>
+				<nav class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+					<a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
 						<span class="fs-4">Advancement Tracker</span>
 					</a>
+					<select name="WorldDropdown" id="World Select" style="margin-right: 10px;">
+						<option value="SurvivalWorld">SurvivalWorld</option>
+						<option value="NewWorld">NewWorld</option>
+					</select>
+					<form action="/">
+						<label for="WorldBox">Add World:</label>
+						<input type="text" id="WorldBox" name="WorldBox">
+						<input type="submit" value="Submit">
+					  </form>
 					<ul class="nav nav-pills">
 						<li class="nav-item">
 							<a onclick="showView('Minecraft')" class="nav-link">Minecraft</a>
@@ -75,11 +77,7 @@
 						<li class="nav-item">
 							<a onclick="showView('Husbandry')" class="nav-link">Husbandry</a>
 						</li>
-						<li class="nav-item">
-							<a href="/signup" class="nav-link">Signup (leave for testing)</a>
-						</li>
-					</ul>
-					                        
+					</ul>                        
 				</nav>
 				
 <style>
@@ -126,13 +124,14 @@
                 				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
 								<ul>
 									<li>Description: {{ user[3] }}</li>
+
 									<form method="POST" action="/update"> 
 										<label>
-											<input type="checkbox" name="completed_box" value="{{ user[0] }}" {% if user[4] %} checked {% endif %}>
+											<input type="checkbox" name="completed_box" value="{{ user[5] }}" {% if user[5] %} checked {% endif %}>
 											Is this advancement completed?
 										</label>
 										<br>
-										<button type="submit">Update this achievement!</button>
+										<button type="submit">Update this advancement!</button>
 									</form>
 								</ul>
             				{% endif %}
