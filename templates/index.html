@@ -126,6 +126,14 @@
                 				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
 								<ul>
 									<li>Description: {{ user[3] }}</li>
+									<form method="POST" action="/update"> 
+										<label>
+											<input type="checkbox" name="completed_box" value="{{ user[0] }}" {% if user[4] %} checked {% endif %}>
+											Is this advancement completed?
+										</label>
+										<br>
+										<button type="submit">Update this achievement!</button>
+									</form>
 								</ul>
             				{% endif %}
         				{% endfor %}
