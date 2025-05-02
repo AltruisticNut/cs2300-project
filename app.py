@@ -20,10 +20,27 @@ mysql.init_app(app)
 def main():
     conn = mysql.connect()
     cursor = conn.cursor()
-    cursor.execute("SELECT advancement_id, advancement_name, tab_id FROM Advancements")  # Example table
+    cursor.execute("SELECT advancement_id, advancement_name, tab_id, description FROM Advancements ORDER BY advancement_id ASC")  # Example table
     users = cursor.fetchall()
     cursor.close()
     return render_template('index.html', users=users)
+
+# work on implementing user input updating the database
+@app.route('/update', methods=['POST'])
+def update():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users")
+    user_ids = [row[0] for row in cursor.fetchall()]
+    
+    for user_id in user_ids:
+        checkbox_name = f"subscribed_{user_id}"
+        subscribed = 1 if checkbox_name in request.form else 0
+        cursor.execute("UPDATE users SET subscribed = %s WHERE id = %s", (subscribed, user_id))
+
+    conn.commit()
+    cursor.close()
+    return redirect('/')
 
 @app.route('/signup')
 def signup():
