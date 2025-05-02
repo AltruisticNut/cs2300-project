@@ -42,6 +42,43 @@ def update():
     cursor.close()
     return redirect('/')
 
+# Search functionality with tab filtering may or may not work lines 46-80
+@app.route('/', methods=['GET', 'POST'])
+def search():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    
+    search_query = ''
+    tab_id = '1'  # Default to Minecraft tab (tab_id=1)
+    
+    if request.method == 'POST':
+        search_query = request.form.get('search', '').strip()
+        tab_id = request.form.get('tab_id', '1')  # Get tab_id from form, default to 1
+        # Search advancements by name, description, or rewards for the current tab
+        query = """
+            SELECT 
+                a.advancement_id, 
+                a.advancement_name, 
+                a.tab_id, 
+                a.description
+            FROM Advancements a
+            WHERE a.tab_id = %s
+              AND (a.advancement_name LIKE %s 
+                   OR a.description LIKE %s 
+                   OR a.rewards LIKE %s)
+            ORDER BY a.advancement_id ASC
+        """
+        like_pattern = f'%{search_query}%'
+        cursor.execute(query, (tab_id, like_pattern, like_pattern, like_pattern))
+    else:
+        # Original query for all advancements (no tab filter for GET to maintain original behavior)
+        cursor.execute("SELECT advancement_id, advancement_name, tab_id, description FROM Advancements ORDER BY advancement_id ASC")
+    
+    users = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('index.html', users=users, search_query=search_query, tab_id=tab_id)
+
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
