@@ -12,9 +12,18 @@ app.config['MYSQL_DATABASE_DB'] = 'sys'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
-@app.route("/")
+# @app.route("/")
+# def main():
+#    return render_template("index.html")
+
+@app.route('/')
 def main():
-    return render_template("index.html")
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT advancement_id, advancement_name, tab_id FROM Advancements")  # Example table
+    users = cursor.fetchall()
+    cursor.close()
+    return render_template('index.html', users=users)
 
 @app.route('/signup')
 def signup():

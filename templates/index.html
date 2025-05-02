@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
 		    
-		<title>Python Flask Bucket List App</title>
+		<title>Advancement Tracker</title>
 		    
 		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -11,6 +11,37 @@
 			crossorigin="anonymous"
 		/>
 	</head>
+
+	<style>
+		@font-face {
+    		font-family: 'MyCustomFont';
+    		src: url('../fonts/minecraftfont.woff') format('woff');
+    		font-weight: normal;
+    		font-style: normal;
+		}
+
+		body {
+    		font-family: 'MyCustomFont', sans-serif;
+		}
+
+		* {
+    		font-family: inherit;
+		}
+
+		.view {
+		  display: none;
+		}
+		.active {
+		  display: block;
+		}
+		nav a {
+		  margin-right: 10px;
+		  cursor: pointer;
+		  text-decoration: underline;
+		  color: blue;
+		}
+	  </style>
+
 	<body>
 		    
 		<div class="container">
@@ -21,78 +52,95 @@
 					class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
 				>
 					<a
-						href="/"
 						class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
 					>
-						<span class="fs-4">Python Flask App</span>
+						<span class="fs-4">Advancement Tracker</span>
 					</a>
 					<ul class="nav nav-pills">
 						<li class="nav-item">
-							<a href="/" class="nav-link active" aria-current="page">Home</a>
+							<a onclick="showView('Minecraft')" class="nav-link">Minecraft</a>
 						</li>
 						<li class="nav-item">
-							<a href="/signup" class="nav-link">Signup</a>
+							<a onclick="showView('Nether')" class="nav-link">Nether</a>
+						</li>
+						<li class="nav-item">
+							<a onclick="showView('The End')" class="nav-link">The End</a>
+						</li>
+						<li class="nav-item">
+							<a onclick="showView('Adventure')" class="nav-link">Adventure</a>
+						</li>
+						<li class="nav-item">
+							<a onclick="showView('Husbandry')" class="nav-link">Husbandry</a>
+						</li>
+						<li class="nav-item">
+							<a href="/signup" class="nav-link">Signup (leave for testing)</a>
 						</li>
 					</ul>
 					                        
 				</nav>
-				                     
+				
+				           
 			</header>
 			<div class="p-5 mb-4 bg-light rounded-3">
-				<div class="container-fluid py-5 text-center">
-					<h1 class="display-5 fw-bold">Bucket List App</h1>
-					       
-					<p>
-						<a class="btn btn-lg btn-success" href="signup" role="button"
-							>Sign up today</a
-						>
-						            
-					</p>
-				</div>
-			</div>
-			        
-			<div class="row marketing">
-				            
-				<div class="col-lg-6">
-					                
-					<h4>Bucket List</h4>
-					                
-					<p>
-						Donec id elit non mi porta gravida at eget metus. Maecenas faucibus
-						mollis interdum.
-					</p>
-					                                 
-					<h4>Bucket List</h4>
-					                
-					<p>
-						Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras
-						mattis consectetur purus sit amet fermentum.
-					</p>
-					                
-					<h4>Bucket List</h4>
-					                
-					<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-					                
-					<h4>Bucket List</h4>
-					                
-					<p>
-						Donec id elit non mi porta gravida at eget metus. Maecenas faucibus
-						mollis interdum.
-					</p>
-					                
-					<h4>Bucket List</h4>
-					                
-					<p>
-						Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras
-						mattis consectetur purus sit amet fermentum.
-					</p>
-					                
-					<h4>Bucket List</h4>
-					                
-					<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-					            
-				</div>
-				        
+				<div id="Minecraft" class="view active">
+					<h1>Minecraft</h1>
+					<p>This will feature content for the "Minecraft" tab.</p>
+					<ul>
+						{% for user in users %}
+            				{% if user[2] == 1 %}
+                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
+            				{% endif %}
+        				{% endfor %}
+					</ul>
+				  </div>
+				
+				  <div id="Nether" class="view">
+					<h1>Nether</h1>
+					<p>This will feature content for the "Nether" tab.</p>
+					<ul>
+						{% for user in users %}
+            				{% if user[2] == 2 %}
+                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
+            				{% endif %}
+        				{% endfor %}
+					</ul>
+				  </div>
+				
+				  <div id="The End" class="view">
+					<h1>The End</h1>
+					<p>This will feature content for the "The End" tab.</p>
+					<ul>
+						{% for user in users %}
+            				{% if user[2] == 3 %}
+                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
+            				{% endif %}
+        				{% endfor %}
+					</ul>
+				  </div>
+	
+				  <div id="Adventure" class="view">
+					<h1>Adventure</h1>
+					<p>This will feature content for the "Adventure" tab.</p>
+					<ul>
+						{% for user in users %}
+            				{% if user[2] == 4 %}
+                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
+            				{% endif %}
+        				{% endfor %}
+					</ul>
+				  </div>
+	
+				  <div id="Husbandry" class="view">
+					<h1>Husbandry</h1>
+					<p>This will feature content for the "Husbandry" tab.</p>
+					<ul>
+						{% for user in users %}
+            				{% if user[2] == 5 %}
+                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
+            				{% endif %}
+        				{% endfor %}
+					</ul>
+				  </div>
 			</div>
 			        
 			<footer class="footer">
@@ -103,4 +151,15 @@
 			    
 		</div>
 	</body>
+	<script>
+		function showView(viewId) {
+		  // Hide all views
+		  document.querySelectorAll('.view').forEach(view => {
+			view.classList.remove('active');
+		  });
+	
+		  // Show the selected view
+		  document.getElementById(viewId).classList.add('active');
+		}
+	  </script>
 </html>
