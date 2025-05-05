@@ -12,39 +12,34 @@ app.config['MYSQL_DATABASE_DB'] = 'sys'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
+# Get advancement data
 @app.route('/')
 def main():
     conn = mysql.connect()
     cursor = conn.cursor()
-    cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, is_completed FROM Advancements ORDER BY advancement_id ASC")  # Example table
-    users = cursor.fetchall()
+    cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")  # Example table
+    advancements = cursor.fetchall()
     cursor.close()
-    return render_template('index.html', users=users)
+    return render_template('index.html', advancements=advancements)
 
-@app.route('/update', methods=['POST'])
-def update():
-   # Get selected checkboxes from the form (which are sent as a list)
-    selected_ids = request.form.getlist('completed_box')
-    print(len(selected_ids))
-    
-    # Connect to the database
+# Toggle achievement completion
+@app.route('/toggle/<int:item_id>', methods=['POST'])
+def toggle(item_id):
     conn = mysql.connect()
     cursor = conn.cursor()
-
-    id_num = 0
-    for record_id in selected_ids:
-        id_num += 1
-        cursor.execute("UPDATE Advancements SET is_completed = %s WHERE advancement_id = %s", (False, record_id))
-        print(record_id)
-        print(id_num)
-    
-
-    # Commit the changes and close the connection
+    cursor.execute("UPDATE Advancements SET is_completed = NOT is_completed WHERE advancement_id = %s", (item_id,))
     conn.commit()
     cursor.close()
-    conn.close()
+    return redirect('/')
 
-    # Redirect back to the index page
+# Get parent achievement name
+@app.route('/parentName', methods=['GET'])
+def parentName(item_id):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT Advancements SET is_completed = NOT is_completed WHERE advancement_id = %s", (item_id,))
+    conn.commit()
+    cursor.close()
     return redirect('/')
 
 # Search functionality with tab filtering may or may not work lines 46-80

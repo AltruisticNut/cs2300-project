@@ -119,21 +119,29 @@
 					<h1>Minecraft</h1>
 					<p>This will feature content for the "Minecraft" tab.</p>
 					<ul>
-						{% for user in users %}
-            				{% if user[2] == 1 %}
-                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
+						{% for advancement in advancements %}
+            				{% if advancement[2] == 1 %}
+                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
 								<ul>
-									<li>Description: {{ user[3] }}</li>
-
-									<form method="POST" action="/update"> 
-										<label>
-											<input type="checkbox" name="completed_box" value="{{ user[5] }}" {% if user[5] %} checked {% endif %}>
-											Is this advancement completed?
-										</label>
-										<br>
-										<button type="submit">Update this advancement!</button>
-									</form>
+									<li>Description: {{ advancement[3] }}</li>
+									{% if advancement[6] %}
+										<li>This advancement is available!</li>
+										<li>Completion Percentage: {{ advancement[4] }}%</li>
+										{% if advancement[5] %}
+											<li>This advancement is complete!</li>
+										{% else %}
+											<li>This advancement is incomplete!</li>
+										{% endif %}
+										<form method="POST" action="{{ url_for('toggle', item_id=advancement[0]) }}">
+											<button type="submit">
+												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+											</button>
+										</form>
+									{% else %}
+										<li>This advancement is unavailable!</li>
+									{% endif %}
 								</ul>
+								<br>
             				{% endif %}
         				{% endfor %}
 					</ul>
@@ -143,12 +151,29 @@
 					<h1>Nether</h1>
 					<p>This will feature content for the "Nether" tab.</p>
 					<ul>
-						{% for user in users %}
-            				{% if user[2] == 2 %}
-                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
-								<ul>
-									<li>Description: {{ user[3] }}</li>
-								</ul>
+						{% for advancement in advancements %}
+            				{% if advancement[2] == 2 %}
+							<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
+							<ul>
+								<li>Description: {{ advancement[3] }}</li>
+								{% if advancement[6] %}
+									<li>This advancement is available!</li>
+									<li>Completion Percentage: {{ advancement[4] }}%</li>
+									{% if advancement[5] %}
+										<li>This advancement is complete!</li>
+									{% else %}
+										<li>This advancement is incomplete!</li>
+									{% endif %}
+									<form method="POST" action="{{ url_for('toggle', item_id=advancement[0]) }}">
+										<button type="submit">
+											{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+										</button>
+									</form>
+								{% else %}
+									<li>This advancement is unavailable!</li>
+								{% endif %}
+							</ul>
+							<br>
             				{% endif %}
         				{% endfor %}
 					</ul>
@@ -158,12 +183,29 @@
 					<h1>The End</h1>
 					<p>This will feature content for the "The End" tab.</p>
 					<ul>
-						{% for user in users %}
-            				{% if user[2] == 3 %}
-                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
-								<ul>
-									<li>Description: {{ user[3] }}</li>
-								</ul>
+						{% for advancement in advancements %}
+            				{% if advancement[2] == 3 %}
+							<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
+							<ul>
+								<li>Description: {{ advancement[3] }}</li>
+								{% if advancement[6] %}
+									<li>This advancement is available!</li>
+									<li>Completion Percentage: {{ advancement[4] }}%</li>
+									{% if advancement[5] %}
+										<li>This advancement is complete!</li>
+									{% else %}
+										<li>This advancement is incomplete!</li>
+									{% endif %}
+									<form method="POST" action="{{ url_for('toggle', item_id=advancement[0]) }}">
+										<button type="submit">
+											{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+										</button>
+									</form>
+								{% else %}
+									<li>This advancement is unavailable!</li>
+								{% endif %}
+							</ul>
+							<br>
             				{% endif %}
         				{% endfor %}
 					</ul>
@@ -173,12 +215,29 @@
 					<h1>Adventure</h1>
 					<p>This will feature content for the "Adventure" tab.</p>
 					<ul>
-						{% for user in users %}
-            				{% if user[2] == 4 %}
-                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
-								<ul>
-									<li>Description: {{ user[3] }}</li>
-								</ul>
+						{% for advancement in advancements %}
+            				{% if advancement[2] == 4 %}
+							<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
+							<ul>
+								<li>Description: {{ advancement[3] }}</li>
+								{% if advancement[6] %}
+									<li>This advancement is available!</li>
+									<li>Completion Percentage: {{ advancement[4] }}%</li>
+									{% if advancement[5] %}
+										<li>This advancement is complete!</li>
+									{% else %}
+										<li>This advancement is incomplete!</li>
+									{% endif %}
+									<form method="POST" action="{{ url_for('toggle', item_id=advancement[0]) }}">
+										<button type="submit">
+											{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+										</button>
+									</form>
+								{% else %}
+									<li>This advancement is unavailable!</li>
+								{% endif %}
+							</ul>
+							<br>
             				{% endif %}
         				{% endfor %}
 					</ul>
@@ -188,12 +247,29 @@
 					<h1>Husbandry</h1>
 					<p>This will feature content for the "Husbandry" tab.</p>
 					<ul>
-						{% for user in users %}
-            				{% if user[2] == 5 %}
-                				<li><strong>{{ user[1] }}</strong> (ID: {{ user[0] }})</li>
-								<ul>
-									<li>Description: {{ user[3] }}</li>
-								</ul>
+						{% for advancement in advancements %}
+            				{% if advancement[2] == 5 %}
+							<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
+							<ul>
+								<li>Description: {{ advancement[3] }}</li>
+								{% if advancement[6] %}
+									<li>This advancement is available!</li>
+									<li>Completion Percentage: {{ advancement[4] }}%</li>
+									{% if advancement[5] %}
+										<li>This advancement is complete!</li>
+									{% else %}
+										<li>This advancement is incomplete!</li>
+									{% endif %}
+									<form method="POST" action="{{ url_for('toggle', item_id=advancement[0]) }}">
+										<button type="submit">
+											{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+										</button>
+									</form>
+								{% else %}
+									<li>This advancement is unavailable!</li>
+								{% endif %}
+							</ul>
+							<br>
             				{% endif %}
         				{% endfor %}
 					</ul>
