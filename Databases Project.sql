@@ -208,6 +208,7 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 (59, 'https://youtu.be/jASrhXOkM1s?si=UCY3T8iCNUihiDno', 'Quick Surge Protecter Guide', 'YouTube'),
 (108, 'https://minecraft.wiki/w/Froglight', 'Obtaining froglights', 'Minecraft Wiki');
 
+
 -- Base Numbers for some acheivemnets
 INSERT INTO Requirements (advancement_id, requirement_type, requirement_value) VALUES
 (21, 'Blocks Traveled in the Nether', 875.00),
