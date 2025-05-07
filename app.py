@@ -26,12 +26,12 @@ def main():
     cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
     worlds = cursor.fetchall()
 
+    # Check advancement availability
     for advancement in advancements:
         if advancement[7]:
             cursor.execute("SELECT advancement_id, is_completed FROM Advancements WHERE advancement_id = %s", (advancement[7]))
             advancement_check = cursor.fetchone()
-            if not advancement_check[1] and advancement_check[0]:  # Add more logic here if needed
-                print(advancement[0])
+            if not advancement_check[1] and advancement_check[0]:
                 cursor.execute(
                     "UPDATE Advancements SET is_available = FALSE WHERE advancement_id = %s",
                     (advancement[0])
