@@ -210,7 +210,7 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 
 --Base Numbers for some acheivemnets
 Insert into Requirements (advancement_id, requirement_type, requirement_value) VALUES
-(21, 'Blocks Traveled', 875.00)
+(21, 'Blocks Traveled in the Nether', 875.00)
 (34, 'Nether biomes visited', 5)
 (69, 'Hostile mobs killed', 37),
 (78, 'Overworld biomes visited', 54),
