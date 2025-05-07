@@ -199,3 +199,12 @@ INSERT INTO Advancements (tab_id, advancement_name, description, is_completed, i
 (5, 'With Our Powers Combined!', 'Have all Froglights in your inventory', FALSE, TRUE, 102, NULL, 'minecraft:husbandry/froglight'), -- 107
 (5, 'Planting the Past', 'Plant any Sniffer seed', FALSE, TRUE, 103, NULL, 'minecraft:husbandry/plant_any_sniffer_seed'), -- 108
 (5, 'The Healing Power of Friendship!', 'Team up with an axolotl and win a fight', FALSE, TRUE, 107, NULL, 'minecraft:husbandry/kill_axolotl_target'); -- 109
+
+--Guides for some achievements
+Insert into Guides (guide_link, guide_description, source_type) VALUES
+(14, https://minecraft.wiki/w/Zombie_Villager#Curing, 'Curing a Zombie Villager', 'Minecraft Wiki'),
+(39, https://minecraft.wiki/w/Beacon#Pyramids, 'Full power beacon set-up', 'Minecraft Wiki'),
+(40, https://youtu.be/fUcPvosFIKY?si=5S_x-ioit_rwNUpT, 'How did we get here video guide', 'YouTube'),
+(59, https://youtu.be/jASrhXOkM1s?si=UCY3T8iCNUihiDno, 'Quick Surge Protecter Guide', 'YouTube')
+(107, https://minecraft.wiki/w/Froglight, 'Obtaining froglights', 'Minecraft Wiki'),
+;
