@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, json, request
+from flask import Flask, redirect, render_template, json, jsonify, request
 from flaskext.mysql import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -17,31 +17,61 @@ mysql.init_app(app)
 def main():
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    # Retrieve advancement data
     cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")  # Example table
     advancements = cursor.fetchall()
+
+    # Retrieve world data
+    cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
+    worlds = cursor.fetchall()
+
+    for advancement in advancements:
+        if advancement[7]:
+            cursor.execute("SELECT advancement_id, is_completed FROM Advancements WHERE advancement_id = %s", (advancement[7]))
+            advancement_check = cursor.fetchone()
+            if not advancement_check[1] and advancement_check[0]:  # Add more logic here if needed
+                print(advancement[0])
+                cursor.execute(
+                    "UPDATE Advancements SET is_available = FALSE WHERE advancement_id = %s",
+                    (advancement[0])
+                )
+                conn.commit()
+            else:
+                cursor.execute("UPDATE Advancements SET is_available = TRUE WHERE advancement_id = %s", (advancement[0]))
+                conn.commit()
+        else:
+            cursor.execute("UPDATE Advancements SET is_available = TRUE WHERE advancement_id = %s", (advancement[0]))
+            conn.commit()
+    
+
+    # Get parent advancement data
+    query = """
+        SELECT 
+            a.advancement_id,
+            a.parent_advancement_id,
+            b.advancement_id,
+            b.parent_advancement_id,
+            b.advancement_name
+        FROM Advancements a
+        LEFT JOIN Advancements b ON b.advancement_id = a.parent_advancement_id
+    """
+    cursor.execute(query)
+    parent_advancements = cursor.fetchall()
+
     cursor.close()
-    return render_template('index.html', advancements=advancements)
+    return render_template('index.html', advancements=advancements, worlds=worlds, parent_advancements=parent_advancements)
 
 # Toggle achievement completion
-@app.route('/toggle/<int:item_id>', methods=['POST'])
-def toggle(item_id):
+@app.route('/toggle/<int:adv_id>', methods=['POST'])
+def toggle(adv_id):
     conn = mysql.connect()
     cursor = conn.cursor()
-    cursor.execute("UPDATE Advancements SET is_completed = NOT is_completed WHERE advancement_id = %s", (item_id,))
+    cursor.execute("UPDATE Advancements SET is_completed = NOT is_completed WHERE advancement_id = %s", (adv_id))
     conn.commit()
     cursor.close()
     return redirect('/')
-
-# Get parent achievement name
-@app.route('/parentName', methods=['GET'])
-def parentName(item_id):
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT Advancements SET is_completed = NOT is_completed WHERE advancement_id = %s", (item_id,))
-    conn.commit()
-    cursor.close()
-    return redirect('/')
-
+    
 # Search functionality with tab filtering may or may not work lines 46-80
 @app.route('/', methods=['GET', 'POST'])
 def search():
@@ -74,47 +104,46 @@ def search():
         # Original query for all advancements (no tab filter for GET to maintain original behavior)
         cursor.execute("SELECT advancement_id, advancement_name, tab_id, description FROM Advancements ORDER BY advancement_id ASC")
     
-    users = cursor.fetchall()
+    advancements = cursor.fetchall()
     cursor.close()
     conn.close()
-    return render_template('index.html', users=users, search_query=search_query, tab_id=tab_id)
+    return render_template('index.html', advancements=advancements, search_query=search_query, tab_id=tab_id)
 
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
+# Add a world to the database
+@app.route('/addWorld', methods=['GET', 'POST'])
+def addWorld():
+    conn = mysql.connect()
+    cursor = conn.cursor()
 
-@app.route('/api/signup', methods=['POST'])
-def signUp():
-    try:
-        _name = request.form['inputName']
-        _email = request.form['inputEmail']
-        _password = request.form['inputPassword']
+    textbox = ''
 
-        # validate the received values
-        if _name and _email and _password:
+    if request.method == 'POST':
+        textbox = request.form['WorldBox']
 
-            # All Good, let's call MySQL
+    cursor.execute("INSERT INTO Worlds (world_name) VALUES (%s)", (textbox))
 
-            conn = mysql.connect()
-            cursor = conn.cursor()
-            # this would always make it too long so i got mad and just didn't hash it :C
-            _hashed_password = generate_password_hash(_password) 
-            cursor.callproc('sp_createUser', (_name, _email, _password))
-            data = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
 
-            if len(data) == 0:
-                conn.commit()
-                return json.dumps({'message': 'User created successfully !'})
-            else:
-                return json.dumps({'error': str(data[0])})
-        else:
-            return json.dumps({'html': '<span>Enter the required fields</span>'})
+    return redirect('/')
 
-    except Exception as e:
-        return json.dumps({'error': str(e)})
-    finally:
-        cursor.close()
-        conn.close()
+# Delete a world from the database
+@app.route('/deleteWorld', methods=['GET', 'POST'])
+def deleteWorld():
+    conn = mysql.connect()
+    cursor = conn.cursor()
 
+    dropdown = request.form['WorldDropdown']
+
+    cursor.execute("DELETE FROM Worlds WHERE world_id = %s", (dropdown))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect('/')
+
+# Run the app
 if __name__ == "__main__":
     app.run()
