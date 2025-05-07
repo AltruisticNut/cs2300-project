@@ -206,7 +206,7 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 (108, 'https://minecraft.wiki/w/Froglight', 'Obtaining froglights', 'Minecraft Wiki');
 
 
---Numbers for some acheivemnets
+-- Numbers for some acheivemnets
 INSERT INTO Requirements (advancement_id, requirement_type, requirement_value) VALUES
 (21, 'Blocks Traveled in the Nether', 875.00),
 (34, 'Nether biomes visited', 5),
