@@ -169,7 +169,7 @@ INSERT INTO Advancements (tab_id, advancement_name, description, is_completed, i
 (4, 'Sniper Duel', 'Kill a Skeleton from at least 50 meters away', FALSE, TRUE, 68, NULL, 'minecraft:adventure/sniper_duel'), -- 83
 (4, 'Bullseye', 'Hit the bullseye of a Target block from at least 30 meters away', FALSE, TRUE, 68, NULL, 'minecraft:adventure/bullseye'), -- 84
 
--- Husbandry Tab (Tab ID: 5, Advancements 85–109)
+-- Husbandry Tab (Tab ID: 5, Advancements 85–110)
 (5, 'Husbandry', 'The world is full of friends and food', FALSE, TRUE, NULL, NULL, 'minecraft:husbandry/root'), -- 85
 (5, 'Bee Our Guest', 'Use a Campfire to collect Honey from a Beehive using a Bottle without aggravating the bees', FALSE, TRUE, 85, NULL, 'minecraft:husbandry/safely_harvest_honey'), -- 86
 (5, 'The Parrots and the Bats', 'Breed two animals together', FALSE, TRUE, 85, NULL, 'minecraft:husbandry/breed_an_animal'), -- 87
@@ -183,19 +183,19 @@ INSERT INTO Advancements (tab_id, advancement_name, description, is_completed, i
 (5, 'Smells Interesting', 'Obtain a Sniffer Egg', FALSE, TRUE, 85, NULL, 'minecraft:husbandry/sniff_sniffer_egg'), -- 95
 (5, 'A Seedy Place', 'Plant a seed and watch it grow', FALSE, TRUE, 85, NULL, 'minecraft:husbandry/plant_seed'), -- 96
 (5, 'Wax On', 'Apply Honeycomb to a Copper block!', FALSE, TRUE, 85, NULL, 'minecraft:husbandry/wax_on'), -- 97
-(5, 'Two by Two', 'Breed all the animals!', FALSE, TRUE, 87, '100 experience', 'minecraft:husbandry/bred_all_animals'),
-(5, 'Birthday Song', 'Have an Allay drop a Cake at a Note Block', FALSE, TRUE, 88, NULL, 'minecraft:husbandry/allay_deliver_cake_to_note_block'), -- 98
-(5, 'A Complete Catalogue', 'Tame all cat variants!', FALSE, TRUE, 90, '50 experience', 'minecraft:husbandry/complete_catalogue'), -- 99
-(5, 'Tactical Fishing', 'Catch a fish... without a fishing rod!', FALSE, TRUE, 92, NULL, 'minecraft:husbandry/tactical_fishing'),  -- 100
-(5, 'When the Squad Hops into Town', 'Get each Frog variant on a Lead', FALSE, TRUE, 94, NULL, 'minecraft:husbandry/leash_all_frog_variants'), -- 101
-(5, 'Little Sniffs', 'Feed a Snifflet', FALSE, TRUE, 95, NULL, 'minecraft:husbandry/feed_snifflet'), -- 102
-(5, 'A Balanced Diet', 'Eat everything that is edible, even if it''s not good for you', FALSE, TRUE, 96, '100 experience', 'minecraft:husbandry/balanced_diet'), -- 103
-(5, 'Serious Dedication', 'Use a Netherite Ingot to upgrade a hoe, and then reevaluate your life choices', FALSE, TRUE, 96, '100 experience', 'minecraft:husbandry/netherite_hoe'), -- 104
-(5, 'Wax Off', 'Scrape Wax off of a Copper block!', FALSE, TRUE, 97, NULL, 'minecraft:husbandry/wax_off'), -- 105
-(5, 'The Cutest Predator', 'Catch an axolotl in a bucket', FALSE, TRUE, 101, NULL, 'minecraft:husbandry/axolotl_in_a_bucket'), -- 106
-(5, 'With Our Powers Combined!', 'Have all Froglights in your inventory', FALSE, TRUE, 102, NULL, 'minecraft:husbandry/froglight'), -- 107
-(5, 'Planting the Past', 'Plant any Sniffer seed', FALSE, TRUE, 103, NULL, 'minecraft:husbandry/plant_any_sniffer_seed'), -- 108
-(5, 'The Healing Power of Friendship!', 'Team up with an axolotl and win a fight', FALSE, TRUE, 107, NULL, 'minecraft:husbandry/kill_axolotl_target'); -- 109
+(5, 'Two by Two', 'Breed all the animals!', FALSE, TRUE, 87, '100 experience', 'minecraft:husbandry/bred_all_animals'), --98
+(5, 'Birthday Song', 'Have an Allay drop a Cake at a Note Block', FALSE, TRUE, 88, NULL, 'minecraft:husbandry/allay_deliver_cake_to_note_block'), -- 99
+(5, 'A Complete Catalogue', 'Tame all cat variants!', FALSE, TRUE, 90, '50 experience', 'minecraft:husbandry/complete_catalogue'), -- 100
+(5, 'Tactical Fishing', 'Catch a fish... without a fishing rod!', FALSE, TRUE, 92, NULL, 'minecraft:husbandry/tactical_fishing'),  -- 101
+(5, 'When the Squad Hops into Town', 'Get each Frog variant on a Lead', FALSE, TRUE, 94, NULL, 'minecraft:husbandry/leash_all_frog_variants'), -- 102
+(5, 'Little Sniffs', 'Feed a Snifflet', FALSE, TRUE, 95, NULL, 'minecraft:husbandry/feed_snifflet'), -- 103
+(5, 'A Balanced Diet', 'Eat everything that is edible, even if it''s not good for you', FALSE, TRUE, 96, '100 experience', 'minecraft:husbandry/balanced_diet'), -- 104
+(5, 'Serious Dedication', 'Use a Netherite Ingot to upgrade a hoe, and then reevaluate your life choices', FALSE, TRUE, 96, '100 experience', 'minecraft:husbandry/netherite_hoe'), -- 105
+(5, 'Wax Off', 'Scrape Wax off of a Copper block!', FALSE, TRUE, 97, NULL, 'minecraft:husbandry/wax_off'), -- 106
+(5, 'The Cutest Predator', 'Catch an axolotl in a bucket', FALSE, TRUE, 101, NULL, 'minecraft:husbandry/axolotl_in_a_bucket'), -- 107
+(5, 'With Our Powers Combined!', 'Have all Froglights in your inventory', FALSE, TRUE, 102, NULL, 'minecraft:husbandry/froglight'), -- 108
+(5, 'Planting the Past', 'Plant any Sniffer seed', FALSE, TRUE, 103, NULL, 'minecraft:husbandry/plant_any_sniffer_seed'), -- 109
+(5, 'The Healing Power of Friendship!', 'Team up with an axolotl and win a fight', FALSE, TRUE, 107, NULL, 'minecraft:husbandry/kill_axolotl_target'); -- 110
 
 -- Guides for some achievements
 INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) VALUES
@@ -208,7 +208,7 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 
 -- Numbers for some acheivemnets
 INSERT INTO Requirements (advancement_id, requirement_type, requirement_value) VALUES
-(21, 'Blocks Traveled in the Nether', 875.00),
+(21, 'Blocks Traveled in the Nether', 875.00), 
 (34, 'Nether biomes visited', 5),
 (69, 'Hostile mobs killed', 37),
 (78, 'Overworld biomes visited', 54),
