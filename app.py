@@ -135,7 +135,7 @@ def toggle(adv_id):
     conn.close()
     return redirect('/')
     
-# Search functionality with tab filtering may or may not work lines 46-80
+# Search functionality
 @app.route('/', methods=['GET', 'POST'])
 def search():
     conn = mysql.connect()
