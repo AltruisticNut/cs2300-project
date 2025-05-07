@@ -42,7 +42,7 @@ CREATE TABLE Advancements (
 CREATE TABLE Requirements (
     requirement_id INT PRIMARY KEY AUTO_INCREMENT,
     advancement_id INT NOT NULL,
-    requirement_type ENUM('boolean', 'integer', 'float', 'array') NOT NULL,
+    requirement_type VARCHAR(255) NOT NULL,
     requirement_value TEXT NOT NULL,
     FOREIGN KEY (advancement_id) REFERENCES Advancements(advancement_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -210,10 +210,10 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 
 --Base Numbers for some acheivemnets
 Insert into Requirements (advancement_id, requirement_type, requirement_value) VALUES
-(21, 'float', 875.00)
-(34, 'integer', 5)
-(69, 'integer', 37),
-(78, 'integer', 54),
-(98, 'integer', 25),
-(100, 'integer', 11),
-(104, 'integer', 40);
+(21, 'Blocks Traveled', 875.00)
+(34, 'Nether biomes visited', 5)
+(69, 'Hostile mobs killed', 37),
+(78, 'Overworld biomes visited', 54),
+(98, 'Mobs bred', 25),
+(100, 'Cat variants tamed', 11),
+(104, 'Food types eaten.', 40);
