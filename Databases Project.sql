@@ -63,9 +63,6 @@ CREATE INDEX idx_tab_name ON Tabs(tab_name);
 CREATE INDEX idx_world_name ON Worlds(world_name);
 CREATE INDEX idx_guides_source ON Guides(source_type);
 
-
--- Inserting base advancements
-
 -- Insert a sample world
 INSERT INTO Worlds (world_name) VALUES ('SurvivalWorld');
 
@@ -209,7 +206,7 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 (108, 'https://minecraft.wiki/w/Froglight', 'Obtaining froglights', 'Minecraft Wiki');
 
 
--- Base Numbers for some acheivemnets
+--Numbers for some acheivemnets
 INSERT INTO Requirements (advancement_id, requirement_type, requirement_value) VALUES
 (21, 'Blocks Traveled in the Nether', 875.00),
 (34, 'Nether biomes visited', 5),
