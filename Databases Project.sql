@@ -206,4 +206,14 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 (39, 'https://minecraft.wiki/w/Beacon#Pyramids', 'Full power beacon set-up', 'Minecraft Wiki'),
 (40, 'https://youtu.be/fUcPvosFIKY?si=5S_x-ioit_rwNUpT', 'How did we get here video guide', 'YouTube'),
 (59, 'https://youtu.be/jASrhXOkM1s?si=UCY3T8iCNUihiDno', 'Quick Surge Protecter Guide', 'YouTube'),
-(107, 'https://minecraft.wiki/w/Froglight', 'Obtaining froglights', 'Minecraft Wiki');
+(108, 'https://minecraft.wiki/w/Froglight', 'Obtaining froglights', 'Minecraft Wiki');
+
+--Base Numbers for some acheivemnets
+Insert into Requirements (advancement_id, requirement_type, requirement_value) VALUES
+(21, float, 875.00)
+(34, integer, 5)
+(69, integer, 37),
+(78, integer, 54),
+(98, integer, 25),
+(100, integer, 11),
+(104, integer, 40);
