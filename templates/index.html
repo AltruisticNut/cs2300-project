@@ -150,6 +150,13 @@
 									{% else %}
 										<li><strong>There are no rewards for this advancement.</strong></li>
 									{% endif %}
+									<!-- Advancement Guides -->
+									{% for guide in guides %}
+										{% if guide[1] == advancement[0] %}
+											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
+										{% endif %}
+									{% endfor %}
 									<!-- If the advancement is available, we can view more information pertaining to completion -->
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
@@ -209,6 +216,13 @@
 									{% else %}
 										<li><strong>There are no rewards for this advancement.</strong></li>
 									{% endif %}
+									<!-- Advancement Guides -->
+									{% for guide in guides %}
+										{% if guide[1] == advancement[0] %}
+											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
+										{% endif %}
+									{% endfor %}
 									<!-- If the advancement is available, we can view more information pertaining to completion -->
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
@@ -269,6 +283,13 @@
 									{% else %}
 										<li><strong>There are no rewards for this advancement.</strong></li>
 									{% endif %}
+									<!-- Advancement Guides -->
+									{% for guide in guides %}
+										{% if guide[1] == advancement[0] %}
+											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
+										{% endif %}
+									{% endfor %}
 									<!-- If the advancement is available, we can view more information pertaining to completion -->
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
@@ -329,6 +350,13 @@
 									{% else %}
 										<li><strong>There are no rewards for this advancement.</strong></li>
 									{% endif %}
+									<!-- Advancement Guides -->
+									{% for guide in guides %}
+										{% if guide[1] == advancement[0] %}
+											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
+										{% endif %}
+									{% endfor %}
 									<!-- If the advancement is available, we can view more information pertaining to completion -->
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
@@ -389,6 +417,13 @@
 									{% else %}
 										<li><strong>There are no rewards for this advancement.</strong></li>
 									{% endif %}
+									<!-- Advancement Guides -->
+									{% for guide in guides %}
+										{% if guide[1] == advancement[0] %}
+											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
+										{% endif %}
+									{% endfor %}
 									<!-- If the advancement is available, we can view more information pertaining to completion -->
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
@@ -449,6 +484,13 @@
 									{% else %}
 										<li><strong>There are no rewards for this advancement.</strong></li>
 									{% endif %}
+									<!-- Advancement Guides -->
+									{% for guide in guides %}
+										{% if guide[1] == advancement[0] %}
+											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
+										{% endif %}
+									{% endfor %}
 									<!-- If the advancement is available, we can view more information pertaining to completion -->
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>

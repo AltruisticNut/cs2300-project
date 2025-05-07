@@ -30,6 +30,10 @@ def main():
     cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")  # Example table
     tabs = cursor.fetchall()
 
+    # Retrieve guide data
+    cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")  # Example table
+    guides = cursor.fetchall()
+
     # Calculate Completion
     world_completion = 0    # World
     mc_completion = 0       # Minecraft
@@ -111,7 +115,7 @@ def main():
     parent_advancements = cursor.fetchall()
 
     cursor.close()
-    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, parent_advancements=parent_advancements)
+    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, guides=guides, parent_advancements=parent_advancements)
 
 # Toggle achievement completion
 @app.route('/toggle/<int:adv_id>', methods=['POST'])
@@ -167,6 +171,10 @@ def search():
     # Retrieve tab data
     cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")  # Example table
     tabs = cursor.fetchall()
+
+    # Retrieve guide data
+    cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")  # Example table
+    guides = cursor.fetchall()
 
     # Calculate Completion
     world_completion = 0    # World
@@ -250,7 +258,7 @@ def search():
 
     cursor.close()
     conn.close()
-    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, parent_advancements=parent_advancements, search_query=search_query)
+    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, guides=guides, parent_advancements=parent_advancements, search_query=search_query)
 
 # Add a world to the database
 @app.route('/addWorld', methods=['GET', 'POST'])
