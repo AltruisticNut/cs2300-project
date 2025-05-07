@@ -19,23 +19,23 @@ def main():
     cursor = conn.cursor()
 
     # Retrieve advancement data
-    cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")  # Example table
+    cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")
     advancements = cursor.fetchall()
 
     # Retrieve world data
-    cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
+    cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")
     worlds = cursor.fetchall()
 
     # Retrieve tab data
-    cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")  # Example table
+    cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")
     tabs = cursor.fetchall()
 
     # Retrieve guide data
-    cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")  # Example table
+    cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")
     guides = cursor.fetchall()
 
     # Retrieve requirement data
-    cursor.execute("SELECT requirement_id, advancement_id, requirement_type, requirement_value FROM Requirements ORDER BY requirement_id ASC")  # Example table
+    cursor.execute("SELECT requirement_id, advancement_id, requirement_type, requirement_value FROM Requirements ORDER BY requirement_id ASC")
     requirements = cursor.fetchall()
 
     # Calculate Completion
@@ -168,26 +168,26 @@ def search():
         cursor.execute(query, (like_pattern, like_pattern, like_pattern))
     else:
         # Original query for all advancements (no tab filter for GET to maintain original behavior)
-        cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")  # Example table
+        cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")
     
     advancements = cursor.fetchall()
 
     # Now, we'll repeat a lot of our main function to update the page without needing to refresh.
 
     # Retrieve world data
-    cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
+    cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC") 
     worlds = cursor.fetchall()
 
     # Retrieve tab data
-    cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")  # Example table
+    cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")
     tabs = cursor.fetchall()
 
     # Retrieve guide data
-    cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")  # Example table
+    cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")
     guides = cursor.fetchall()
 
     # Retrieve requirement data
-    cursor.execute("SELECT requirement_id, advancement_id, requirement_type, requirement_value FROM Requirements ORDER BY requirement_id ASC")  # Example table
+    cursor.execute("SELECT requirement_id, advancement_id, requirement_type, requirement_value FROM Requirements ORDER BY requirement_id ASC")
     requirements = cursor.fetchall()
 
     # Calculate Completion

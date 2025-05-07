@@ -1,597 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-		    
-		<title>Advancement Tracker</title>
-		    
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+   <head>
+      <title>Advancement Tracker</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+      <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+         crossorigin="anonymous"
+         />
+   </head>
+   <style>
+      @font-face {
+      font-family: "Tiny5", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      }
+      body {
+      font-family: "Tiny5", sans-serif;
+      }
+      * {
+      font-family: inherit;
+      }
+      .view {
+      display: none;
+      }
+      .active {
+      display: block;
+      }
+      nav a {
+      margin-right: 10px;
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+      }
+      .search-container {
+      margin: 20px 0;
+      text-align: center;
+      }
+      .search-container input[type="text"] {
+      padding: 8px;
+      width: 50%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      }
+      .search-container button {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      }
+      .search-container button:hover {
+      background-color: #0056b3;
+      }
+   </style>
 
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-			crossorigin="anonymous"
-		/>
-	</head>
-
-	<style>
-		@font-face {
-    		font-family: "Tiny5", sans-serif;
-			font-weight: 400;
-			font-style: normal;
-		}
-
-		body {
-    		font-family: "Tiny5", sans-serif;
-		}
-
-		* {
-    		font-family: inherit;
-		}
-
-		.view {
-		  display: none;
-		}
-		.active {
-		  display: block;
-		}
-		nav a {
-		  margin-right: 10px;
-		  cursor: pointer;
-		  text-decoration: underline;
-		  color: blue;
-		}
-	  </style>
-
-	<body>
-		<div class="container">
-			<header class="header">
-				<nav class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-					<a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-						<span class="fs-4">Advancement Tracker</span>
-					</a>
-					<form method="POST" action="{{ url_for('deleteWorld')}}">
-						<select name="WorldDropdown" id="WorldSelect" style="margin-right: 5px;">
-							{% for world in worlds %}
-								<option value="{{ world[0] }}">{{ world[1] }}</option>
-							{% endfor %}
-						</select>
-						<input type="submit" value="Delete" style="margin-right: 10px;">
-					</form>
-
-						<form method="POST" action="{{ url_for('addWorld')}}">
-							<label for="WorldBox">Add World:</label>
-							<input type="text" id="WorldBox" name="WorldBox">
-							<input type="submit" value="Add">
-						</form>
-						
-					<ul class="nav nav-pills">
-						<li class="nav-item">
-							<a onclick="showView('All')" class="nav-link">All Advancements</a>
-						</li>
-						<li class="nav-item">
-							<a onclick="showView('Minecraft')" class="nav-link">Minecraft</a>
-						</li>
-						<li class="nav-item">
-							<a onclick="showView('Nether')" class="nav-link">Nether</a>
-						</li>
-						<li class="nav-item">
-							<a onclick="showView('The End')" class="nav-link">The End</a>
-						</li>
-						<li class="nav-item">
-							<a onclick="showView('Adventure')" class="nav-link">Adventure</a>
-						</li>
-						<li class="nav-item">
-							<a onclick="showView('Husbandry')" class="nav-link">Husbandry</a>
-						</li>
-					</ul>                        
-				</nav>
-				
-<style>
-    .search-container {
-        margin: 20px 0;
-        text-align: center;
-    }
-    .search-container input[type="text"] {
-        padding: 8px;
-        width: 50%;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    .search-container button {
-        padding: 8px 16px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .search-container button:hover {
-        background-color: #0056b3;
-    }
-</style>
-			{% for world in worlds %}
-				<p><h5><strong>WORLD COMPLETION: </strong>{{ world[2] }}%</p>
-			{% endfor %}
-			</header>
-			<div class="p-5 mb-4 bg-light rounded-3">
-				<div id="All" class="view active">
-					<h1>All Advancements</h1>
-					<p>This details all advancements in the game.</p>
-					<ul>
-						<div class="search-container">
-							<form method="POST" action="/">
-								<input type="text" name="search" placeholder="Search advancements..." value="">
-								<button type="submit">Search</button>
-							</form>
-						</div>
-						<!-- Main Loop -->
-						{% for advancement in advancements %}
-								<!-- Advancement Name & ID -->
-                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
-								<ul>
-									<!-- Advancement Description -->
-									<li><strong>Description:</strong> {{ advancement[3] }}</li>
-									<!-- Advancement Requirements -->
-									{% for requirement in requirements %}
-										{% if requirement[1] == advancement[0] %}
-											<li><strong>This advancement has a unique requirement: </strong></li>
-											<ul>
-												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
-											</ul>
-										{% endif %}
-									{% endfor %}
-									<!-- Parent Advancement -->
-									{% set data = namespace(h_bool=False) %}
-									{% for parent_advancement in parent_advancements if data.h_bool == false %}
-										{% if advancement[0] == parent_advancement[0] %}
-											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
-											{% set data.h_bool = true %}
-										{% endif %}
-									{% endfor %}
-									<!-- Advancement Rewards -->
-									{% if advancement[8] %}
-										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
-									{% else %}
-										<li><strong>There are no rewards for this advancement.</strong></li>
-									{% endif %}
-									<!-- Advancement Guides -->
-									{% for guide in guides %}
-										{% if guide[1] == advancement[0] %}
-											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
-											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
-										{% endif %}
-									{% endfor %}
-									<!-- If the advancement is available, we can view more information pertaining to completion -->
-									{% if advancement[6] %}
-										<li><strong>This advancement is available!</strong></li>
-										<!-- Completion Percentage -->
-										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
-										<!-- Display if advancement is complete -->
-										{% if advancement[5] %}
-											<li><strong>This advancement is complete!</strong></li>
-										{% else %}
-											<li><strong>This advancement is incomplete!</strong></li>
-										{% endif %}
-										<!-- Toggle advancement completion -->
-										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
-											<button type="submit">
-												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
-											</button>
-										</form>
-									{% else %}
-										<!-- If it is unavailable, we'll just hide this part-->
-										<li><strong>This advancement is unavailable!</strong></li>
-									{% endif %}
-								</ul>
-								<br>
-        				{% endfor %}
-					</ul>
-				</div>
-
-				<div id="Minecraft" class="view">
-					<h1>Minecraft</h1>
-					<p>This features content for the "Minecraft" tab.</p>
-					{% for tab in tabs %}
-						{% if tab[0] == 1 %}
-							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
-						{% endif %}
-					{% endfor %}
-					<ul>
-						<!-- Main Loop -->
-						{% for advancement in advancements %}
-							<!-- Check if the advancement belongs to this tab -->
-            				{% if advancement[2] == 1 %}
-								<!-- Advancement Name & ID -->
-                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
-								<ul>
-									<!-- Advancement Description -->
-									<li><strong>Description:</strong> {{ advancement[3] }}</li>
-									<!-- Advancement Requirements -->
-									{% for requirement in requirements %}
-										{% if requirement[1] == advancement[0] %}
-											<li><strong>This advancement has a unique requirement: </strong></li>
-											<ul>
-												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
-											</ul>
-										{% endif %}
-									{% endfor %}
-									<!-- Parent Advancement -->
-									{% set data = namespace(h_bool=False) %}
-									{% for parent_advancement in parent_advancements if data.h_bool == false %}
-										{% if advancement[0] == parent_advancement[0] %}
-											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
-											{% set data.h_bool = true %}
-										{% endif %}
-									{% endfor %}
-									<!-- Advancement Rewards -->
-									{% if advancement[8] %}
-										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
-									{% else %}
-										<li><strong>There are no rewards for this advancement.</strong></li>
-									{% endif %}
-									<!-- Advancement Guides -->
-									{% for guide in guides %}
-										{% if guide[1] == advancement[0] %}
-											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
-											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
-										{% endif %}
-									{% endfor %}
-									<!-- If the advancement is available, we can view more information pertaining to completion -->
-									{% if advancement[6] %}
-										<li><strong>This advancement is available!</strong></li>
-										<!-- Completion Percentage -->
-										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
-										<!-- Display if advancement is complete -->
-										{% if advancement[5] %}
-											<li><strong>This advancement is complete!</strong></li>
-										{% else %}
-											<li><strong>This advancement is incomplete!</strong></li>
-										{% endif %}
-										<!-- Toggle advancement completion -->
-										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
-											<button type="submit">
-												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
-											</button>
-										</form>
-									{% else %}
-										<!-- If it is unavailable, we'll just hide this part-->
-										<li><strong>This advancement is unavailable!</strong></li>
-									{% endif %}
-								</ul>
-								<br>
-            				{% endif %}
-        				{% endfor %}
-					</ul>
-				  </div>
-				
-				  <div id="Nether" class="view">
-					<h1>Nether</h1>
-					<p>This features content for the "Nether" tab.</p>
-					{% for tab in tabs %}
-						{% if tab[0] == 2 %}
-							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
-						{% endif %}
-					{% endfor %}
-					<ul>
-						<!-- Main Loop -->
-						{% for advancement in advancements %}
-							<!-- Check if the advancement belongs to this tab -->
-            				{% if advancement[2] == 2 %}
-								<!-- Advancement Name & ID -->
-                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
-								<ul>
-									<!-- Advancement Description -->
-									<li><strong>Description:</strong> {{ advancement[3] }}</li>
-									<!-- Advancement Requirements -->
-									{% for requirement in requirements %}
-										{% if requirement[1] == advancement[0] %}
-											<li><strong>This advancement has a unique requirement: </strong></li>
-											<ul>
-												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
-											</ul>
-										{% endif %}
-									{% endfor %}
-									<!-- Parent Advancement -->
-									{% set data = namespace(h_bool=False) %}
-									{% for parent_advancement in parent_advancements if data.h_bool == false %}
-										{% if advancement[0] == parent_advancement[0] %}
-											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
-											{% set data.h_bool = true %}
-										{% endif %}
-									{% endfor %}
-									<!-- Advancement Rewards -->
-									{% if advancement[8] %}
-										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
-									{% else %}
-										<li><strong>There are no rewards for this advancement.</strong></li>
-									{% endif %}
-									<!-- Advancement Guides -->
-									{% for guide in guides %}
-										{% if guide[1] == advancement[0] %}
-											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
-											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
-										{% endif %}
-									{% endfor %}
-									<!-- If the advancement is available, we can view more information pertaining to completion -->
-									{% if advancement[6] %}
-										<li><strong>This advancement is available!</strong></li>
-										<!-- Completion Percentage -->
-										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
-										<!-- Display if advancement is complete -->
-										{% if advancement[5] %}
-											<li><strong>This advancement is complete!</strong></li>
-										{% else %}
-											<li><strong>This advancement is incomplete!</strong></li>
-										{% endif %}
-										<!-- Toggle advancement completion -->
-										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
-											<button type="submit">
-												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
-											</button>
-										</form>
-									{% else %}
-										<!-- If it is unavailable, we'll just hide this part-->
-										<li><strong>This advancement is unavailable!</strong></li>
-									{% endif %}
-								</ul>
-								<br>
-            				{% endif %}
-        				{% endfor %}
-					</ul>
-				  </div>
-				
-				  <div id="The End" class="view">
-					<h1>The End</h1>
-					<p>This features content for the "The End" tab.</p>
-					{% for tab in tabs %}
-						{% if tab[0] == 3 %}
-							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
-						{% endif %}
-					{% endfor %}
-					<ul>
-						<!-- Main Loop -->
-						{% for advancement in advancements %}
-							<!-- Check if the advancement belongs to this tab -->
-            				{% if advancement[2] == 3 %}
-								<!-- Advancement Name & ID -->
-                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
-								<ul>
-									<!-- Advancement Description -->
-									<li><strong>Description:</strong> {{ advancement[3] }}</li>
-									<!-- Advancement Requirements -->
-									{% for requirement in requirements %}
-										{% if requirement[1] == advancement[0] %}
-											<li><strong>This advancement has a unique requirement: </strong></li>
-											<ul>
-												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
-											</ul>
-										{% endif %}
-									{% endfor %}
-									<!-- Parent Advancement -->
-									{% set data = namespace(h_bool=False) %}
-									{% for parent_advancement in parent_advancements if data.h_bool == false %}
-										{% if advancement[0] == parent_advancement[0] %}
-											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
-											{% set data.h_bool = true %}
-										{% endif %}
-									{% endfor %}
-									<!-- Advancement Rewards -->
-									{% if advancement[8] %}
-										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
-									{% else %}
-										<li><strong>There are no rewards for this advancement.</strong></li>
-									{% endif %}
-									<!-- Advancement Guides -->
-									{% for guide in guides %}
-										{% if guide[1] == advancement[0] %}
-											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
-											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
-										{% endif %}
-									{% endfor %}
-									<!-- If the advancement is available, we can view more information pertaining to completion -->
-									{% if advancement[6] %}
-										<li><strong>This advancement is available!</strong></li>
-										<!-- Completion Percentage -->
-										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
-										<!-- Display if advancement is complete -->
-										{% if advancement[5] %}
-											<li><strong>This advancement is complete!</strong></li>
-										{% else %}
-											<li><strong>This advancement is incomplete!</strong></li>
-										{% endif %}
-										<!-- Toggle advancement completion -->
-										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
-											<button type="submit">
-												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
-											</button>
-										</form>
-									{% else %}
-										<!-- If it is unavailable, we'll just hide this part-->
-										<li><strong>This advancement is unavailable!</strong></li>
-									{% endif %}
-								</ul>
-								<br>
-            				{% endif %}
-        				{% endfor %}
-					</ul>
-				  </div>
-	
-				  <div id="Adventure" class="view">
-					<h1>Adventure</h1>
-					<p>This features content for the "Adventure" tab.</p>
-					{% for tab in tabs %}
-						{% if tab[0] == 4 %}
-							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
-						{% endif %}
-					{% endfor %}
-					<ul>
-						<!-- Main Loop -->
-						{% for advancement in advancements %}
-							<!-- Check if the advancement belongs to this tab -->
-            				{% if advancement[2] == 4 %}
-								<!-- Advancement Name & ID -->
-                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
-								<ul>
-									<!-- Advancement Description -->
-									<li><strong>Description:</strong> {{ advancement[3] }}</li>
-									<!-- Advancement Requirements -->
-									{% for requirement in requirements %}
-										{% if requirement[1] == advancement[0] %}
-											<li><strong>This advancement has a unique requirement: </strong></li>
-											<ul>
-												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
-											</ul>
-										{% endif %}
-									{% endfor %}
-									<!-- Parent Advancement -->
-									{% set data = namespace(h_bool=False) %}
-									{% for parent_advancement in parent_advancements if data.h_bool == false %}
-										{% if advancement[0] == parent_advancement[0] %}
-											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
-											{% set data.h_bool = true %}
-										{% endif %}
-									{% endfor %}
-									<!-- Advancement Rewards -->
-									{% if advancement[8] %}
-										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
-									{% else %}
-										<li><strong>There are no rewards for this advancement.</strong></li>
-									{% endif %}
-									<!-- Advancement Guides -->
-									{% for guide in guides %}
-										{% if guide[1] == advancement[0] %}
-											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
-											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
-										{% endif %}
-									{% endfor %}
-									<!-- If the advancement is available, we can view more information pertaining to completion -->
-									{% if advancement[6] %}
-										<li><strong>This advancement is available!</strong></li>
-										<!-- Completion Percentage -->
-										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
-										<!-- Display if advancement is complete -->
-										{% if advancement[5] %}
-											<li><strong>This advancement is complete!</strong></li>
-										{% else %}
-											<li><strong>This advancement is incomplete!</strong></li>
-										{% endif %}
-										<!-- Toggle advancement completion -->
-										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
-											<button type="submit">
-												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
-											</button>
-										</form>
-									{% else %}
-										<!-- If it is unavailable, we'll just hide this part-->
-										<li><strong>This advancement is unavailable!</strong></li>
-									{% endif %}
-								</ul>
-								<br>
-            				{% endif %}
-        				{% endfor %}
-					</ul>
-				  </div>
-	
-				  <div id="Husbandry" class="view">
-					<h1>Husbandry</h1>
-					<p>This features content for the "Husbandry" tab.</p>
-					{% for tab in tabs %}
-						{% if tab[0] == 5 %}
-							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
-						{% endif %}
-					{% endfor %}
-					<ul>
-						<!-- Main Loop -->
-						{% for advancement in advancements %}
-							<!-- Check if the advancement belongs to this tab -->
-            				{% if advancement[2] == 5 %}
-								<!-- Advancement Name & ID -->
-                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
-								<ul>
-									<!-- Advancement Description -->
-									<li><strong>Description:</strong> {{ advancement[3] }}</li>
-									<!-- Advancement Requirements -->
-									{% for requirement in requirements %}
-										{% if requirement[1] == advancement[0] %}
-											<li><strong>This advancement has a unique requirement: </strong></li>
-											<ul>
-												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
-											</ul>
-										{% endif %}
-									{% endfor %}
-									<!-- Parent Advancement -->
-									{% set data = namespace(h_bool=False) %}
-									{% for parent_advancement in parent_advancements if data.h_bool == false %}
-										{% if advancement[0] == parent_advancement[0] %}
-											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
-											{% set data.h_bool = true %}
-										{% endif %}
-									{% endfor %}
-									<!-- Advancement Rewards -->
-									{% if advancement[8] %}
-										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
-									{% else %}
-										<li><strong>There are no rewards for this advancement.</strong></li>
-									{% endif %}
-									<!-- Advancement Guides -->
-									{% for guide in guides %}
-										{% if guide[1] == advancement[0] %}
-											<li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
-											<a href="{{ guide[2] }}">{{ guide[3] }}</a>
-										{% endif %}
-									{% endfor %}
-									<!-- If the advancement is available, we can view more information pertaining to completion -->
-									{% if advancement[6] %}
-										<li><strong>This advancement is available!</strong></li>
-										<!-- Completion Percentage -->
-										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
-										<!-- Display if advancement is complete -->
-										{% if advancement[5] %}
-											<li><strong>This advancement is complete!</strong></li>
-										{% else %}
-											<li><strong>This advancement is incomplete!</strong></li>
-										{% endif %}
-										<!-- Toggle advancement completion -->
-										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
-											<button type="submit">
-												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
-											</button>
-										</form>
-									{% else %}
-										<!-- If it is unavailable, we'll just hide this part-->
-										<li><strong>This advancement is unavailable!</strong></li>
-									{% endif %}
-								</ul>
-								<br>
-            				{% endif %}
-        				{% endfor %}
-					</ul>
-				  </div>
-			</div>
-			        
-			<footer class="footer">
-				            
-				<p>&copy; Advancements in Advancements, 2025</p>
-				        
-			</footer>
-			    
-		</div>
-	</body>
-	<script>
-		// Script to handle tab switching
-		function showView(viewId) {
-		  // Hide all views
-		  document.querySelectorAll('.view').forEach(view => {
-			view.classList.remove('active');
-		  });
-	
-		  // Show the selected view
-		  document.getElementById(viewId).classList.add('active');
-		}
-	  </script>
+   <body>
+	  <!-- Header -->
+      <div class="container">
+         <header class="header">
+            <nav class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+               <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+               <span class="fs-4">Advancement Tracker</span>
+               </a>
+			   <!-- World Dropdown + Deleter -->
+               <form method="POST" action="{{ url_for('deleteWorld')}}">
+                  <select name="WorldDropdown" id="WorldSelect" style="margin-right: 5px;">
+                     {% for world in worlds %}
+                     <option value="{{ world[0] }}">{{ world[1] }}</option>
+                     {% endfor %}
+                  </select>
+                  <input type="submit" value="Delete" style="margin-right: 10px;">
+               </form>
+			   <!-- World Text Input + Adder -->
+               <form method="POST" action="{{ url_for('addWorld')}}">
+                  <label for="WorldBox">Add World:</label>
+                  <input type="text" id="WorldBox" name="WorldBox">
+                  <input type="submit" value="Add">
+               </form>
+			   <!-- Navigation Links/Pills -->
+               <ul class="nav nav-pills">
+                  <li class="nav-item">
+                     <a onclick="showView('All')" class="nav-link">All Advancements</a>
+                  </li>
+                  <li class="nav-item">
+                     <a onclick="showView('Minecraft')" class="nav-link">Minecraft</a>
+                  </li>
+                  <li class="nav-item">
+                     <a onclick="showView('Nether')" class="nav-link">Nether</a>
+                  </li>
+                  <li class="nav-item">
+                     <a onclick="showView('The End')" class="nav-link">The End</a>
+                  </li>
+                  <li class="nav-item">
+                     <a onclick="showView('Adventure')" class="nav-link">Adventure</a>
+                  </li>
+                  <li class="nav-item">
+                     <a onclick="showView('Husbandry')" class="nav-link">Husbandry</a>
+                  </li>
+               </ul>
+            </nav>
+            <style>
+            </style>
+            {% for world in worlds %}
+            <p>
+            <h5>
+			<!-- World Completion -->
+            <strong>WORLD COMPLETION: </strong>{{ world[2] }}%</p>
+            {% endfor %}
+         </header>
+		 <!-- Main Container -->
+         <div class="p-5 mb-4 bg-light rounded-3">
+            <div id="All" class="view active">
+               <h1>All Advancements</h1>
+               <p>This details all advancements in the game.</p>
+               <ul>
+                  <div class="search-container">
+                     <form method="POST" action="/">
+                        <input type="text" name="search" placeholder="Search advancements..." value="">
+                        <button type="submit">Search</button>
+                     </form>
+                  </div>
+                  <!-- Main Loop -->
+                  {% for advancement in advancements %}
+                  <!-- Advancement Name & ID -->
+                  <li>
+                     <h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5>
+                  </li>
+                  <ul>
+                     <!-- Advancement Description -->
+                     <li><strong>Description:</strong> {{ advancement[3] }}</li>
+                     <!-- Advancement Requirements -->
+                     {% for requirement in requirements %}
+                     {% if requirement[1] == advancement[0] %}
+                     <li><strong>This advancement has a unique requirement: </strong></li>
+                     <ul>
+                        <li>{{ requirement[3] }} {{ requirement[2] }}</li>
+                     </ul>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Parent Advancement -->
+                     {% set data = namespace(h_bool=False) %}
+                     {% for parent_advancement in parent_advancements if data.h_bool == false %}
+                     {% if advancement[0] == parent_advancement[0] %}
+                     <li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+                     {% set data.h_bool = true %}
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Advancement Rewards -->
+                     {% if advancement[8] %}
+                     <li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+                     {% else %}
+                     <li><strong>There are no rewards for this advancement.</strong></li>
+                     {% endif %}
+                     <!-- Advancement Guides -->
+                     {% for guide in guides %}
+                     {% if guide[1] == advancement[0] %}
+                     <li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+                     <a href="{{ guide[2] }}">{{ guide[3] }}</a>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- If the advancement is available, we can view more information pertaining to completion -->
+                     {% if advancement[6] %}
+                     <li><strong>This advancement is available!</strong></li>
+                     <!-- Completion Percentage -->
+                     <!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
+                     <!-- Display if advancement is complete -->
+                     {% if advancement[5] %}
+                     <li><strong>This advancement is complete!</strong></li>
+                     {% else %}
+                     <li><strong>This advancement is incomplete!</strong></li>
+                     {% endif %}
+                     <!-- Toggle advancement completion -->
+                     <form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+                        <button type="submit">
+                        {{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+                        </button>
+                     </form>
+                     {% else %}
+                     <!-- If it is unavailable, we'll just hide this part -->
+                     <li><strong>This advancement is unavailable!</strong></li>
+                     {% endif %}
+                  </ul>
+                  <br>
+                  {% endfor %}
+               </ul>
+            </div>
+            <div id="Minecraft" class="view">
+               <h1>Minecraft</h1>
+               <p>This features content for the "Minecraft" tab.</p>
+               {% for tab in tabs %}
+               {% if tab[0] == 1 %}
+               <p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+               {% endif %}
+               {% endfor %}
+               <ul>
+                  <!-- Main Loop -->
+                  {% for advancement in advancements %}
+                  <!-- Check if the advancement belongs to this tab -->
+                  {% if advancement[2] == 1 %}
+                  <!-- Advancement Name & ID -->
+                  <li>
+                     <h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5>
+                  </li>
+                  <ul>
+                     <!-- Advancement Description -->
+                     <li><strong>Description:</strong> {{ advancement[3] }}</li>
+                     <!-- Advancement Requirements -->
+                     {% for requirement in requirements %}
+                     {% if requirement[1] == advancement[0] %}
+                     <li><strong>This advancement has a unique requirement: </strong></li>
+                     <ul>
+                        <li>{{ requirement[3] }} {{ requirement[2] }}</li>
+                     </ul>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Parent Advancement -->
+                     {% set data = namespace(h_bool=False) %}
+                     {% for parent_advancement in parent_advancements if data.h_bool == false %}
+                     {% if advancement[0] == parent_advancement[0] %}
+                     <li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+                     {% set data.h_bool = true %}
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Advancement Rewards -->
+                     {% if advancement[8] %}
+                     <li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+                     {% else %}
+                     <li><strong>There are no rewards for this advancement.</strong></li>
+                     {% endif %}
+                     <!-- Advancement Guides -->
+                     {% for guide in guides %}
+                     {% if guide[1] == advancement[0] %}
+                     <li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+                     <a href="{{ guide[2] }}">{{ guide[3] }}</a>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- If the advancement is available, we can view more information pertaining to completion -->
+                     {% if advancement[6] %}
+                     <li><strong>This advancement is available!</strong></li>
+                     <!-- Completion Percentage -->
+                     <!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
+                     <!-- Display if advancement is complete -->
+                     {% if advancement[5] %}
+                     <li><strong>This advancement is complete!</strong></li>
+                     {% else %}
+                     <li><strong>This advancement is incomplete!</strong></li>
+                     {% endif %}
+                     <!-- Toggle advancement completion -->
+                     <form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+                        <button type="submit">
+                        {{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+                        </button>
+                     </form>
+                     {% else %}
+                     <!-- If it is unavailable, we'll just hide this part-->
+                     <li><strong>This advancement is unavailable!</strong></li>
+                     {% endif %}
+                  </ul>
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+               </ul>
+            </div>
+            <div id="Nether" class="view">
+               <h1>Nether</h1>
+               <p>This features content for the "Nether" tab.</p>
+               {% for tab in tabs %}
+               {% if tab[0] == 2 %}
+               <p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+               {% endif %}
+               {% endfor %}
+               <ul>
+                  <!-- Main Loop -->
+                  {% for advancement in advancements %}
+                  <!-- Check if the advancement belongs to this tab -->
+                  {% if advancement[2] == 2 %}
+                  <!-- Advancement Name & ID -->
+                  <li>
+                     <h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5>
+                  </li>
+                  <ul>
+                     <!-- Advancement Description -->
+                     <li><strong>Description:</strong> {{ advancement[3] }}</li>
+                     <!-- Advancement Requirements -->
+                     {% for requirement in requirements %}
+                     {% if requirement[1] == advancement[0] %}
+                     <li><strong>This advancement has a unique requirement: </strong></li>
+                     <ul>
+                        <li>{{ requirement[3] }} {{ requirement[2] }}</li>
+                     </ul>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Parent Advancement -->
+                     {% set data = namespace(h_bool=False) %}
+                     {% for parent_advancement in parent_advancements if data.h_bool == false %}
+                     {% if advancement[0] == parent_advancement[0] %}
+                     <li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+                     {% set data.h_bool = true %}
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Advancement Rewards -->
+                     {% if advancement[8] %}
+                     <li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+                     {% else %}
+                     <li><strong>There are no rewards for this advancement.</strong></li>
+                     {% endif %}
+                     <!-- Advancement Guides -->
+                     {% for guide in guides %}
+                     {% if guide[1] == advancement[0] %}
+                     <li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+                     <a href="{{ guide[2] }}">{{ guide[3] }}</a>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- If the advancement is available, we can view more information pertaining to completion -->
+                     {% if advancement[6] %}
+                     <li><strong>This advancement is available!</strong></li>
+                     <!-- Completion Percentage -->
+                     <!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
+                     <!-- Display if advancement is complete -->
+                     {% if advancement[5] %}
+                     <li><strong>This advancement is complete!</strong></li>
+                     {% else %}
+                     <li><strong>This advancement is incomplete!</strong></li>
+                     {% endif %}
+                     <!-- Toggle advancement completion -->
+                     <form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+                        <button type="submit">
+                        {{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+                        </button>
+                     </form>
+                     {% else %}
+                     <!-- If it is unavailable, we'll just hide this part-->
+                     <li><strong>This advancement is unavailable!</strong></li>
+                     {% endif %}
+                  </ul>
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+               </ul>
+            </div>
+            <div id="The End" class="view">
+               <h1>The End</h1>
+               <p>This features content for the "The End" tab.</p>
+               {% for tab in tabs %}
+               {% if tab[0] == 3 %}
+               <p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+               {% endif %}
+               {% endfor %}
+               <ul>
+                  <!-- Main Loop -->
+                  {% for advancement in advancements %}
+                  <!-- Check if the advancement belongs to this tab -->
+                  {% if advancement[2] == 3 %}
+                  <!-- Advancement Name & ID -->
+                  <li>
+                     <h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5>
+                  </li>
+                  <ul>
+                     <!-- Advancement Description -->
+                     <li><strong>Description:</strong> {{ advancement[3] }}</li>
+                     <!-- Advancement Requirements -->
+                     {% for requirement in requirements %}
+                     {% if requirement[1] == advancement[0] %}
+                     <li><strong>This advancement has a unique requirement: </strong></li>
+                     <ul>
+                        <li>{{ requirement[3] }} {{ requirement[2] }}</li>
+                     </ul>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Parent Advancement -->
+                     {% set data = namespace(h_bool=False) %}
+                     {% for parent_advancement in parent_advancements if data.h_bool == false %}
+                     {% if advancement[0] == parent_advancement[0] %}
+                     <li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+                     {% set data.h_bool = true %}
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Advancement Rewards -->
+                     {% if advancement[8] %}
+                     <li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+                     {% else %}
+                     <li><strong>There are no rewards for this advancement.</strong></li>
+                     {% endif %}
+                     <!-- Advancement Guides -->
+                     {% for guide in guides %}
+                     {% if guide[1] == advancement[0] %}
+                     <li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+                     <a href="{{ guide[2] }}">{{ guide[3] }}</a>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- If the advancement is available, we can view more information pertaining to completion -->
+                     {% if advancement[6] %}
+                     <li><strong>This advancement is available!</strong></li>
+                     <!-- Completion Percentage -->
+                     <!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
+                     <!-- Display if advancement is complete -->
+                     {% if advancement[5] %}
+                     <li><strong>This advancement is complete!</strong></li>
+                     {% else %}
+                     <li><strong>This advancement is incomplete!</strong></li>
+                     {% endif %}
+                     <!-- Toggle advancement completion -->
+                     <form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+                        <button type="submit">
+                        {{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+                        </button>
+                     </form>
+                     {% else %}
+                     <!-- If it is unavailable, we'll just hide this part-->
+                     <li><strong>This advancement is unavailable!</strong></li>
+                     {% endif %}
+                  </ul>
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+               </ul>
+            </div>
+            <div id="Adventure" class="view">
+               <h1>Adventure</h1>
+               <p>This features content for the "Adventure" tab.</p>
+               {% for tab in tabs %}
+               {% if tab[0] == 4 %}
+               <p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+               {% endif %}
+               {% endfor %}
+               <ul>
+                  <!-- Main Loop -->
+                  {% for advancement in advancements %}
+                  <!-- Check if the advancement belongs to this tab -->
+                  {% if advancement[2] == 4 %}
+                  <!-- Advancement Name & ID -->
+                  <li>
+                     <h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5>
+                  </li>
+                  <ul>
+                     <!-- Advancement Description -->
+                     <li><strong>Description:</strong> {{ advancement[3] }}</li>
+                     <!-- Advancement Requirements -->
+                     {% for requirement in requirements %}
+                     {% if requirement[1] == advancement[0] %}
+                     <li><strong>This advancement has a unique requirement: </strong></li>
+                     <ul>
+                        <li>{{ requirement[3] }} {{ requirement[2] }}</li>
+                     </ul>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Parent Advancement -->
+                     {% set data = namespace(h_bool=False) %}
+                     {% for parent_advancement in parent_advancements if data.h_bool == false %}
+                     {% if advancement[0] == parent_advancement[0] %}
+                     <li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+                     {% set data.h_bool = true %}
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Advancement Rewards -->
+                     {% if advancement[8] %}
+                     <li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+                     {% else %}
+                     <li><strong>There are no rewards for this advancement.</strong></li>
+                     {% endif %}
+                     <!-- Advancement Guides -->
+                     {% for guide in guides %}
+                     {% if guide[1] == advancement[0] %}
+                     <li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+                     <a href="{{ guide[2] }}">{{ guide[3] }}</a>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- If the advancement is available, we can view more information pertaining to completion -->
+                     {% if advancement[6] %}
+                     <li><strong>This advancement is available!</strong></li>
+                     <!-- Completion Percentage -->
+                     <!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
+                     <!-- Display if advancement is complete -->
+                     {% if advancement[5] %}
+                     <li><strong>This advancement is complete!</strong></li>
+                     {% else %}
+                     <li><strong>This advancement is incomplete!</strong></li>
+                     {% endif %}
+                     <!-- Toggle advancement completion -->
+                     <form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+                        <button type="submit">
+                        {{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+                        </button>
+                     </form>
+                     {% else %}
+                     <!-- If it is unavailable, we'll just hide this part-->
+                     <li><strong>This advancement is unavailable!</strong></li>
+                     {% endif %}
+                  </ul>
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+               </ul>
+            </div>
+            <div id="Husbandry" class="view">
+               <h1>Husbandry</h1>
+               <p>This features content for the "Husbandry" tab.</p>
+               {% for tab in tabs %}
+               {% if tab[0] == 5 %}
+               <p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+               {% endif %}
+               {% endfor %}
+               <ul>
+                  <!-- Main Loop -->
+                  {% for advancement in advancements %}
+                  <!-- Check if the advancement belongs to this tab -->
+                  {% if advancement[2] == 5 %}
+                  <!-- Advancement Name & ID -->
+                  <li>
+                     <h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5>
+                  </li>
+                  <ul>
+                     <!-- Advancement Description -->
+                     <li><strong>Description:</strong> {{ advancement[3] }}</li>
+                     <!-- Advancement Requirements -->
+                     {% for requirement in requirements %}
+                     {% if requirement[1] == advancement[0] %}
+                     <li><strong>This advancement has a unique requirement: </strong></li>
+                     <ul>
+                        <li>{{ requirement[3] }} {{ requirement[2] }}</li>
+                     </ul>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Parent Advancement -->
+                     {% set data = namespace(h_bool=False) %}
+                     {% for parent_advancement in parent_advancements if data.h_bool == false %}
+                     {% if advancement[0] == parent_advancement[0] %}
+                     <li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+                     {% set data.h_bool = true %}
+                     {% endif %}
+                     {% endfor %}
+                     <!-- Advancement Rewards -->
+                     {% if advancement[8] %}
+                     <li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+                     {% else %}
+                     <li><strong>There are no rewards for this advancement.</strong></li>
+                     {% endif %}
+                     <!-- Advancement Guides -->
+                     {% for guide in guides %}
+                     {% if guide[1] == advancement[0] %}
+                     <li>We have a guide for this advancement! Source: {{ guide[4] }}.</li>
+                     <a href="{{ guide[2] }}">{{ guide[3] }}</a>
+                     {% endif %}
+                     {% endfor %}
+                     <!-- If the advancement is available, we can view more information pertaining to completion -->
+                     {% if advancement[6] %}
+                     <li><strong>This advancement is available!</strong></li>
+                     <!-- Completion Percentage -->
+                     <!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
+                     <!-- Display if advancement is complete -->
+                     {% if advancement[5] %}
+                     <li><strong>This advancement is complete!</strong></li>
+                     {% else %}
+                     <li><strong>This advancement is incomplete!</strong></li>
+                     {% endif %}
+                     <!-- Toggle advancement completion -->
+                     <form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+                        <button type="submit">
+                        {{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+                        </button>
+                     </form>
+                     {% else %}
+                     <!-- If it is unavailable, we'll just hide this part-->
+                     <li><strong>This advancement is unavailable!</strong></li>
+                     {% endif %}
+                  </ul>
+                  <br>
+                  {% endif %}
+                  {% endfor %}
+               </ul>
+            </div>
+         </div>
+         <footer class="footer">
+            <p>&copy; Advancements in Advancements, 2025</p>
+         </footer>
+      </div>
+   </body>
+   <script>
+      // Script to handle tab switching
+      function showView(viewId) {
+        // Hide all views
+        document.querySelectorAll('.view').forEach(view => {
+      	view.classList.remove('active');
+        });
+      
+        // Show the selected view
+        document.getElementById(viewId).classList.add('active');
+      }
+       
+   </script>
 </html>
