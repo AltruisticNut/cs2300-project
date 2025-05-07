@@ -210,10 +210,10 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 
 --Base Numbers for some acheivemnets
 Insert into Requirements (advancement_id, requirement_type, requirement_value) VALUES
-(21, float, 875.00)
-(34, integer, 5)
-(69, integer, 37),
-(78, integer, 54),
-(98, integer, 25),
-(100, integer, 11),
-(104, integer, 40);
+(21, 'float', 875.00)
+(34, 'integer', 5)
+(69, 'integer', 37),
+(78, 'integer', 54),
+(98, 'integer', 25),
+(100, 'integer', 11),
+(104, 'integer', 40);
