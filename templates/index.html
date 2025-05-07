@@ -136,6 +136,15 @@
 								<ul>
 									<!-- Advancement Description -->
 									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Advancement Requirements -->
+									{% for requirement in requirements %}
+										{% if requirement[1] == advancement[0] %}
+											<li><strong>This advancement has a unique requirement: </strong></li>
+											<ul>
+												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
+											</ul>
+										{% endif %}
+									{% endfor %}
 									<!-- Parent Advancement -->
 									{% set data = namespace(h_bool=False) %}
 									{% for parent_advancement in parent_advancements if data.h_bool == false %}
@@ -202,6 +211,15 @@
 								<ul>
 									<!-- Advancement Description -->
 									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Advancement Requirements -->
+									{% for requirement in requirements %}
+										{% if requirement[1] == advancement[0] %}
+											<li><strong>This advancement has a unique requirement: </strong></li>
+											<ul>
+												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
+											</ul>
+										{% endif %}
+									{% endfor %}
 									<!-- Parent Advancement -->
 									{% set data = namespace(h_bool=False) %}
 									{% for parent_advancement in parent_advancements if data.h_bool == false %}
@@ -269,6 +287,15 @@
 								<ul>
 									<!-- Advancement Description -->
 									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Advancement Requirements -->
+									{% for requirement in requirements %}
+										{% if requirement[1] == advancement[0] %}
+											<li><strong>This advancement has a unique requirement: </strong></li>
+											<ul>
+												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
+											</ul>
+										{% endif %}
+									{% endfor %}
 									<!-- Parent Advancement -->
 									{% set data = namespace(h_bool=False) %}
 									{% for parent_advancement in parent_advancements if data.h_bool == false %}
@@ -336,6 +363,15 @@
 								<ul>
 									<!-- Advancement Description -->
 									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Advancement Requirements -->
+									{% for requirement in requirements %}
+										{% if requirement[1] == advancement[0] %}
+											<li><strong>This advancement has a unique requirement: </strong></li>
+											<ul>
+												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
+											</ul>
+										{% endif %}
+									{% endfor %}
 									<!-- Parent Advancement -->
 									{% set data = namespace(h_bool=False) %}
 									{% for parent_advancement in parent_advancements if data.h_bool == false %}
@@ -403,6 +439,15 @@
 								<ul>
 									<!-- Advancement Description -->
 									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Advancement Requirements -->
+									{% for requirement in requirements %}
+										{% if requirement[1] == advancement[0] %}
+											<li><strong>This advancement has a unique requirement: </strong></li>
+											<ul>
+												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
+											</ul>
+										{% endif %}
+									{% endfor %}
 									<!-- Parent Advancement -->
 									{% set data = namespace(h_bool=False) %}
 									{% for parent_advancement in parent_advancements if data.h_bool == false %}
@@ -470,6 +515,15 @@
 								<ul>
 									<!-- Advancement Description -->
 									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Advancement Requirements -->
+									{% for requirement in requirements %}
+										{% if requirement[1] == advancement[0] %}
+											<li><strong>This advancement has a unique requirement: </strong></li>
+											<ul>
+												<li>{{ requirement[3] }} {{ requirement[2] }}</li>
+											</ul>
+										{% endif %}
+									{% endfor %}
 									<!-- Parent Advancement -->
 									{% set data = namespace(h_bool=False) %}
 									{% for parent_advancement in parent_advancements if data.h_bool == false %}
@@ -529,6 +583,7 @@
 		</div>
 	</body>
 	<script>
+		// Script to handle tab switching
 		function showView(viewId) {
 		  // Hide all views
 		  document.querySelectorAll('.view').forEach(view => {

@@ -42,7 +42,7 @@ CREATE TABLE Advancements (
 CREATE TABLE Requirements (
     requirement_id INT PRIMARY KEY AUTO_INCREMENT,
     advancement_id INT NOT NULL,
-    requirement_type ENUM('boolean', 'integer', 'float', 'array') NOT NULL,
+    requirement_type VARCHAR(255) NOT NULL,
     requirement_value TEXT NOT NULL,
     FOREIGN KEY (advancement_id) REFERENCES Advancements(advancement_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -200,7 +200,7 @@ INSERT INTO Advancements (tab_id, advancement_name, description, is_completed, i
 (5, 'Planting the Past', 'Plant any Sniffer seed', FALSE, TRUE, 103, NULL, 'minecraft:husbandry/plant_any_sniffer_seed'), -- 108
 (5, 'The Healing Power of Friendship!', 'Team up with an axolotl and win a fight', FALSE, TRUE, 107, NULL, 'minecraft:husbandry/kill_axolotl_target'); -- 109
 
---Guides for some achievements
+-- Guides for some achievements
 INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) VALUES
 (14, 'https://minecraft.wiki/w/Zombie_Villager#Curing', 'Curing a Zombie Villager', 'Minecraft Wiki'),
 (39, 'https://minecraft.wiki/w/Beacon#Pyramids', 'Full power beacon set-up', 'Minecraft Wiki'),
@@ -208,12 +208,12 @@ INSERT INTO Guides (advancement_id, guide_link, guide_description, source_type) 
 (59, 'https://youtu.be/jASrhXOkM1s?si=UCY3T8iCNUihiDno', 'Quick Surge Protecter Guide', 'YouTube'),
 (108, 'https://minecraft.wiki/w/Froglight', 'Obtaining froglights', 'Minecraft Wiki');
 
---Base Numbers for some acheivemnets
-Insert into Requirements (advancement_id, requirement_type, requirement_value) VALUES
-(21, float, 875.00)
-(34, integer, 5)
-(69, integer, 37),
-(78, integer, 54),
-(98, integer, 25),
-(100, integer, 11),
-(104, integer, 40);
+-- Base Numbers for some acheivemnets
+INSERT INTO Requirements (advancement_id, requirement_type, requirement_value) VALUES
+(21, 'Blocks Traveled in the Nether', 875.00),
+(34, 'Nether biomes visited', 5),
+(69, 'Hostile mobs killed', 37),
+(78, 'Overworld biomes visited', 54),
+(98, 'Mobs bred', 25),
+(100, 'Cat variants tamed', 11),
+(104, 'Food types eaten.', 40);

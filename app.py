@@ -1,10 +1,10 @@
-from flask import Flask, redirect, render_template, json, jsonify, request
+from flask import Flask, redirect, render_template, request
 from flaskext.mysql import MySQL
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
 mysql = MySQL()
+
 # MySQL configurations 
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'advancement'
@@ -33,6 +33,10 @@ def main():
     # Retrieve guide data
     cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")  # Example table
     guides = cursor.fetchall()
+
+    # Retrieve requirement data
+    cursor.execute("SELECT requirement_id, advancement_id, requirement_type, requirement_value FROM Requirements ORDER BY requirement_id ASC")  # Example table
+    requirements = cursor.fetchall()
 
     # Calculate Completion
     world_completion = 0    # World
@@ -115,7 +119,10 @@ def main():
     parent_advancements = cursor.fetchall()
 
     cursor.close()
-    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, guides=guides, parent_advancements=parent_advancements)
+    conn.close()
+
+    # Return the webpage with all of our database values.
+    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, guides=guides, requirements=requirements, parent_advancements=parent_advancements)
 
 # Toggle achievement completion
 @app.route('/toggle/<int:adv_id>', methods=['POST'])
@@ -125,6 +132,7 @@ def toggle(adv_id):
     cursor.execute("UPDATE Advancements SET is_completed = NOT is_completed WHERE advancement_id = %s", (adv_id))
     conn.commit()
     cursor.close()
+    conn.close()
     return redirect('/')
     
 # Search functionality with tab filtering may or may not work lines 46-80
@@ -164,6 +172,8 @@ def search():
     
     advancements = cursor.fetchall()
 
+    # Now, we'll repeat a lot of our main function to update the page without needing to refresh.
+
     # Retrieve world data
     cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
     worlds = cursor.fetchall()
@@ -175,6 +185,10 @@ def search():
     # Retrieve guide data
     cursor.execute("SELECT guide_id, advancement_id, guide_link, guide_description, source_type FROM Guides ORDER BY guide_id ASC")  # Example table
     guides = cursor.fetchall()
+
+    # Retrieve requirement data
+    cursor.execute("SELECT requirement_id, advancement_id, requirement_type, requirement_value FROM Requirements ORDER BY requirement_id ASC")  # Example table
+    requirements = cursor.fetchall()
 
     # Calculate Completion
     world_completion = 0    # World
@@ -258,7 +272,9 @@ def search():
 
     cursor.close()
     conn.close()
-    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, guides=guides, parent_advancements=parent_advancements, search_query=search_query)
+
+    # Return the webpage with all of our database values.
+    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, guides=guides, requirements=requirements, parent_advancements=parent_advancements, search_query=search_query)
 
 # Add a world to the database
 @app.route('/addWorld', methods=['GET', 'POST'])
@@ -268,9 +284,11 @@ def addWorld():
 
     textbox = ''
 
+    # Get value of the textbox
     if request.method == 'POST':
         textbox = request.form['WorldBox']
 
+    # Insert it into our database
     cursor.execute("INSERT INTO Worlds (world_name) VALUES (%s)", (textbox))
 
     conn.commit()
@@ -285,8 +303,10 @@ def deleteWorld():
     conn = mysql.connect()
     cursor = conn.cursor()
 
+    # Get value of the dropdown
     dropdown = request.form['WorldDropdown']
 
+    # Delete it from our database
     cursor.execute("DELETE FROM Worlds WHERE world_id = %s", (dropdown))
 
     conn.commit()
