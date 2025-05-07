@@ -26,6 +26,57 @@ def main():
     cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
     worlds = cursor.fetchall()
 
+    # Retrieve tab data
+    cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")  # Example table
+    tabs = cursor.fetchall()
+
+    # Calculate Completion
+    world_completion = 0    # World
+    mc_completion = 0       # Minecraft
+    tn_completion = 0       # The Nether
+    te_completion = 0       # The End
+    ad_completion = 0       # Adventure
+    hu_completion = 0       # Husbandry
+    for advancement in advancements:
+        if advancement[5]:
+            world_completion += 1
+            if advancement[2] == 1:
+                mc_completion += 1
+            elif advancement[2] == 2:
+                tn_completion += 1
+            elif advancement[2] == 3:
+                te_completion += 1
+            elif advancement[2] == 4:
+                ad_completion += 1
+            elif advancement[2] == 5:
+                hu_completion += 1
+    # World
+    world_completion /= 110
+    world_completion *= 100
+    # Minecraft
+    mc_completion /= 16
+    mc_completion *= 100
+    # The Nether
+    tn_completion /= 24
+    tn_completion *= 100
+    # The End
+    te_completion /= 9
+    te_completion *= 100
+    # Adventure
+    ad_completion /= 35
+    ad_completion *= 100
+    # Husbandry
+    hu_completion /= 26
+    hu_completion *= 100
+    # Update all of the values
+    cursor.execute("UPDATE Worlds SET completion_percentage = %s", (world_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 1", (mc_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 2", (tn_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 3", (te_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 4", (ad_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 5", (hu_completion))
+    conn.commit()
+
     # Check advancement availability
     for advancement in advancements:
         if advancement[7]:
@@ -60,7 +111,7 @@ def main():
     parent_advancements = cursor.fetchall()
 
     cursor.close()
-    return render_template('index.html', advancements=advancements, worlds=worlds, parent_advancements=parent_advancements)
+    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, parent_advancements=parent_advancements)
 
 # Toggle achievement completion
 @app.route('/toggle/<int:adv_id>', methods=['POST'])
@@ -113,6 +164,57 @@ def search():
     cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
     worlds = cursor.fetchall()
 
+    # Retrieve tab data
+    cursor.execute("SELECT tab_id, world_id, tab_name, completion_percentage FROM Tabs ORDER BY tab_id ASC")  # Example table
+    tabs = cursor.fetchall()
+
+    # Calculate Completion
+    world_completion = 0    # World
+    mc_completion = 0       # Minecraft
+    tn_completion = 0       # The Nether
+    te_completion = 0       # The End
+    ad_completion = 0       # Adventure
+    hu_completion = 0       # Husbandry
+    for advancement in advancements:
+        if advancement[5]:
+            world_completion += 1
+            if advancement[2] == 1:
+                mc_completion += 1
+            elif advancement[2] == 2:
+                tn_completion += 1
+            elif advancement[2] == 3:
+                te_completion += 1
+            elif advancement[2] == 4:
+                ad_completion += 1
+            elif advancement[2] == 5:
+                hu_completion += 1
+    # World
+    world_completion /= 110
+    world_completion *= 100
+    # Minecraft
+    mc_completion /= 16
+    mc_completion *= 100
+    # The Nether
+    tn_completion /= 24
+    tn_completion *= 100
+    # The End
+    te_completion /= 9
+    te_completion *= 100
+    # Adventure
+    ad_completion /= 35
+    ad_completion *= 100
+    # Husbandry
+    hu_completion /= 26
+    hu_completion *= 100
+    # Update all of the values
+    cursor.execute("UPDATE Worlds SET completion_percentage = %s", (world_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 1", (mc_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 2", (tn_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 3", (te_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 4", (ad_completion))
+    cursor.execute("UPDATE Tabs SET completion_percentage = %s WHERE tab_id = 5", (hu_completion))
+    conn.commit()
+
     # Check advancement availability
     for advancement in advancements:
         if advancement[7]:
@@ -148,7 +250,7 @@ def search():
 
     cursor.close()
     conn.close()
-    return render_template('index.html', advancements=advancements, worlds=worlds, parent_advancements=parent_advancements, search_query=search_query)
+    return render_template('index.html', advancements=advancements, worlds=worlds, tabs=tabs, parent_advancements=parent_advancements, search_query=search_query)
 
 # Add a world to the database
 @app.route('/addWorld', methods=['GET', 'POST'])

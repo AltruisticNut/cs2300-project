@@ -114,6 +114,9 @@
         background-color: #0056b3;
     }
 </style>
+			{% for world in worlds %}
+				<p><h5><strong>WORLD COMPLETION: </strong>{{ world[2] }}%</p>
+			{% endfor %}
 			</header>
 			<div class="p-5 mb-4 bg-light rounded-3">
 				<div id="All" class="view active">
@@ -151,7 +154,7 @@
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
 										<!-- Completion Percentage -->
-										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
 										<!-- Display if advancement is complete -->
 										{% if advancement[5] %}
 											<li><strong>This advancement is complete!</strong></li>
@@ -177,6 +180,11 @@
 				<div id="Minecraft" class="view">
 					<h1>Minecraft</h1>
 					<p>This features content for the "Minecraft" tab.</p>
+					{% for tab in tabs %}
+						{% if tab[0] == 1 %}
+							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+						{% endif %}
+					{% endfor %}
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -205,7 +213,7 @@
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
 										<!-- Completion Percentage -->
-										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
 										<!-- Display if advancement is complete -->
 										{% if advancement[5] %}
 											<li><strong>This advancement is complete!</strong></li>
@@ -232,6 +240,11 @@
 				  <div id="Nether" class="view">
 					<h1>Nether</h1>
 					<p>This features content for the "Nether" tab.</p>
+					{% for tab in tabs %}
+						{% if tab[0] == 2 %}
+							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+						{% endif %}
+					{% endfor %}
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -260,7 +273,7 @@
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
 										<!-- Completion Percentage -->
-										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
 										<!-- Display if advancement is complete -->
 										{% if advancement[5] %}
 											<li><strong>This advancement is complete!</strong></li>
@@ -287,6 +300,11 @@
 				  <div id="The End" class="view">
 					<h1>The End</h1>
 					<p>This features content for the "The End" tab.</p>
+					{% for tab in tabs %}
+						{% if tab[0] == 3 %}
+							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+						{% endif %}
+					{% endfor %}
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -315,7 +333,7 @@
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
 										<!-- Completion Percentage -->
-										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
 										<!-- Display if advancement is complete -->
 										{% if advancement[5] %}
 											<li><strong>This advancement is complete!</strong></li>
@@ -342,6 +360,11 @@
 				  <div id="Adventure" class="view">
 					<h1>Adventure</h1>
 					<p>This features content for the "Adventure" tab.</p>
+					{% for tab in tabs %}
+						{% if tab[0] == 4 %}
+							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+						{% endif %}
+					{% endfor %}
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -370,7 +393,7 @@
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
 										<!-- Completion Percentage -->
-										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
 										<!-- Display if advancement is complete -->
 										{% if advancement[5] %}
 											<li><strong>This advancement is complete!</strong></li>
@@ -397,6 +420,11 @@
 				  <div id="Husbandry" class="view">
 					<h1>Husbandry</h1>
 					<p>This features content for the "Husbandry" tab.</p>
+					{% for tab in tabs %}
+						{% if tab[0] == 5 %}
+							<p>This tab is <strong>{{ tab[3] }}%</strong> completed!</p>
+						{% endif %}
+					{% endfor %}
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -425,7 +453,7 @@
 									{% if advancement[6] %}
 										<li><strong>This advancement is available!</strong></li>
 										<!-- Completion Percentage -->
-										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- <li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li> -->
 										<!-- Display if advancement is complete -->
 										{% if advancement[5] %}
 											<li><strong>This advancement is complete!</strong></li>
