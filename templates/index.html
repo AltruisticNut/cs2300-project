@@ -69,6 +69,9 @@
 						
 					<ul class="nav nav-pills">
 						<li class="nav-item">
+							<a onclick="showView('All')" class="nav-link">All Advancements</a>
+						</li>
+						<li class="nav-item">
 							<a onclick="showView('Minecraft')" class="nav-link">Minecraft</a>
 						</li>
 						<li class="nav-item">
@@ -111,19 +114,69 @@
         background-color: #0056b3;
     }
 </style>
-
-<div class="search-container">
-    <form method="POST" action="/">
-        <input type="text" name="search" placeholder="Search advancements..." value="">
-        <button type="submit">Search</button>
-    </form>
-</div>
-				
 			</header>
 			<div class="p-5 mb-4 bg-light rounded-3">
-				<div id="Minecraft" class="view active">
+				<div id="All" class="view active">
+					<h1>All Advancements</h1>
+					<p>This details all advancements in the game.</p>
+					<ul>
+						<div class="search-container">
+							<form method="POST" action="/">
+								<input type="text" name="search" placeholder="Search advancements..." value="">
+								<button type="submit">Search</button>
+							</form>
+						</div>
+						<!-- Main Loop -->
+						{% for advancement in advancements %}
+								<!-- Advancement Name & ID -->
+                				<li><h5><strong>{{ advancement[1] }}</strong> (ID: {{ advancement[0] }})</h5></li>
+								<ul>
+									<!-- Advancement Description -->
+									<li><strong>Description:</strong> {{ advancement[3] }}</li>
+									<!-- Parent Advancement -->
+									{% set data = namespace(h_bool=False) %}
+									{% for parent_advancement in parent_advancements if data.h_bool == false %}
+										{% if advancement[0] == parent_advancement[0] %}
+											<li><strong>Parent Advancement:</strong> {{ parent_advancement[2] }}</li>
+											{% set data.h_bool = true %}
+										{% endif %}
+									{% endfor %}
+									<!-- Advancement Rewards -->
+									{% if advancement[8] %}
+										<li><strong>Rewards:</strong> {{ advancement[8] }}</li>
+									{% else %}
+										<li><strong>There are no rewards for this advancement.</strong></li>
+									{% endif %}
+									<!-- If the advancement is available, we can view more information pertaining to completion -->
+									{% if advancement[6] %}
+										<li><strong>This advancement is available!</strong></li>
+										<!-- Completion Percentage -->
+										<li><strong>Completion Percentage:</strong> {{ advancement[4] }}%</li>
+										<!-- Display if advancement is complete -->
+										{% if advancement[5] %}
+											<li><strong>This advancement is complete!</strong></li>
+										{% else %}
+											<li><strong>This advancement is incomplete!</strong></li>
+										{% endif %}
+										<!-- Toggle advancement completion -->
+										<form method="POST" action="{{ url_for('toggle', adv_id=advancement[0]) }}">
+											<button type="submit">
+												{{ 'Make Advancement Incomplete' if advancement[5] else 'Make Advancement Complete' }}
+											</button>
+										</form>
+									{% else %}
+										<!-- If it is unavailable, we'll just hide this part-->
+										<li><strong>This advancement is unavailable!</strong></li>
+									{% endif %}
+								</ul>
+								<br>
+        				{% endfor %}
+					</ul>
+				</div>
+
+				<div id="Minecraft" class="view">
 					<h1>Minecraft</h1>
-					<p>This will feature content for the "Minecraft" tab.</p>
+					<p>This features content for the "Minecraft" tab.</p>
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -178,7 +231,7 @@
 				
 				  <div id="Nether" class="view">
 					<h1>Nether</h1>
-					<p>This will feature content for the "Nether" tab.</p>
+					<p>This features content for the "Nether" tab.</p>
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -233,7 +286,7 @@
 				
 				  <div id="The End" class="view">
 					<h1>The End</h1>
-					<p>This will feature content for the "The End" tab.</p>
+					<p>This features content for the "The End" tab.</p>
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -288,7 +341,7 @@
 	
 				  <div id="Adventure" class="view">
 					<h1>Adventure</h1>
-					<p>This will feature content for the "Adventure" tab.</p>
+					<p>This features content for the "Adventure" tab.</p>
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}
@@ -343,7 +396,7 @@
 	
 				  <div id="Husbandry" class="view">
 					<h1>Husbandry</h1>
-					<p>This will feature content for the "Husbandry" tab.</p>
+					<p>This features content for the "Husbandry" tab.</p>
 					<ul>
 						<!-- Main Loop -->
 						{% for advancement in advancements %}

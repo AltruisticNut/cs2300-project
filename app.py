@@ -79,35 +79,76 @@ def search():
     cursor = conn.cursor()
     
     search_query = ''
-    tab_id = '1'  # Default to Minecraft tab (tab_id=1)
     
     if request.method == 'POST':
         search_query = request.form.get('search', '').strip()
-        tab_id = request.form.get('tab_id', '1')  # Get tab_id from form, default to 1
         # Search advancements by name, description, or rewards for the current tab
         query = """
             SELECT 
                 a.advancement_id, 
                 a.advancement_name, 
                 a.tab_id, 
-                a.description
+                a.description,
+                a.completion_percentage,
+                a.is_completed,
+                a.is_available,
+                a.parent_advancement_id,
+                a.rewards,
+                a.resource_path
             FROM Advancements a
-            WHERE a.tab_id = %s
-              AND (a.advancement_name LIKE %s 
-                   OR a.description LIKE %s 
-                   OR a.rewards LIKE %s)
+            WHERE a.advancement_name LIKE %s 
+                  OR a.description LIKE %s 
+                  OR a.rewards LIKE %s
             ORDER BY a.advancement_id ASC
         """
         like_pattern = f'%{search_query}%'
-        cursor.execute(query, (tab_id, like_pattern, like_pattern, like_pattern))
+        cursor.execute(query, (like_pattern, like_pattern, like_pattern))
     else:
         # Original query for all advancements (no tab filter for GET to maintain original behavior)
-        cursor.execute("SELECT advancement_id, advancement_name, tab_id, description FROM Advancements ORDER BY advancement_id ASC")
+        cursor.execute("SELECT advancement_id, advancement_name, tab_id, description, completion_percentage, is_completed, is_available, parent_advancement_id, rewards, resource_path FROM Advancements ORDER BY advancement_id ASC")  # Example table
     
     advancements = cursor.fetchall()
+
+    # Retrieve world data
+    cursor.execute("SELECT world_id, world_name, completion_percentage, created_at FROM Worlds ORDER BY world_id ASC")  # Example table
+    worlds = cursor.fetchall()
+
+    # Check advancement availability
+    for advancement in advancements:
+        if advancement[7]:
+            cursor.execute("SELECT advancement_id, is_completed FROM Advancements WHERE advancement_id = %s", (advancement[7]))
+            advancement_check = cursor.fetchone()
+            if not advancement_check[1] and advancement_check[0]:
+                cursor.execute(
+                    "UPDATE Advancements SET is_available = FALSE WHERE advancement_id = %s",
+                    (advancement[0])
+                )
+                conn.commit()
+            else:
+                cursor.execute("UPDATE Advancements SET is_available = TRUE WHERE advancement_id = %s", (advancement[0]))
+                conn.commit()
+        else:
+            cursor.execute("UPDATE Advancements SET is_available = TRUE WHERE advancement_id = %s", (advancement[0]))
+            conn.commit()
+    
+
+    # Get parent advancement data
+    query = """
+        SELECT 
+            a.advancement_id,
+            a.parent_advancement_id,
+            b.advancement_id,
+            b.parent_advancement_id,
+            b.advancement_name
+        FROM Advancements a
+        LEFT JOIN Advancements b ON b.advancement_id = a.parent_advancement_id
+    """
+    cursor.execute(query)
+    parent_advancements = cursor.fetchall()
+
     cursor.close()
     conn.close()
-    return render_template('index.html', advancements=advancements, search_query=search_query, tab_id=tab_id)
+    return render_template('index.html', advancements=advancements, worlds=worlds, parent_advancements=parent_advancements, search_query=search_query)
 
 # Add a world to the database
 @app.route('/addWorld', methods=['GET', 'POST'])
